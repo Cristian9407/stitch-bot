@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 let lastCommitSHA = '';
-const owner = 'Stitch-botv6';
-const repo = 'Stitch-Botv6-Project';
+const owner = 'Cristian9407';
+const repo = 'Stitch-bot';
 const branch = 'main';
 const RATE_LIMIT_DELAY = 2000; // 2 segundos entre solicitudes para respetar límites de API
 const MAX_FILES_TO_CHECK = 10; // Máximo archivos a comparar para evitar saturar WhatsApp
