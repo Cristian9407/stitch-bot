@@ -1,7 +1,7 @@
   {
-  "name": "Luna-Botv6-Project",
+  "name": "stitch-bot",
   "version": "1.0.0",
-  "description": "Versión de LunaBotV6: WhatsApp bot",
+  "description": "Versión de StitchBotV6: WhatsApp bot",
   "main": "index.js",
   "type": "module",
   "scripts": {
