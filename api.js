@@ -55,7 +55,7 @@ global.APIs = {
 global.APIKeys = {
   'https://api.xteam.xyz': `${keysxteam}`,
   'https://api.lolhuman.xyz': 'GataDios',
-  'https://api.neoxr.my.id': `${Crysis}`,
+  'https://api.neoxr.my.id': `Crysis`,
   'https://api.zahwazein.xyz': `${keysxxx}`,
   'https://api-fgmods.ddns.net': 'fg-dylux',
   'https://api.botcahx.biz.id': 'Admin',
