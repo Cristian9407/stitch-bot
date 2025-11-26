@@ -34,12 +34,12 @@ global.neoxr = {
   key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = 'Luna-Botv6';
-global.author = 'Luna-Botv6';
-global.wm = 'Luna-Botv6';
-global.titulowm = 'Luna-Botv6';
-global.titulowm2 = `Luna-Botv6`
-global.igfg = 'Luna-Botv6';
+global.packname = '';
+global.author = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.wm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.titulowm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.titulowm2 = `sᴛɪᴛᴄʜ-ʙᴏᴛ`
+global.igfg = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
 global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
