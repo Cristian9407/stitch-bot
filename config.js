@@ -38,7 +38,7 @@ global.packname = 'Luna-Botv6';
 global.author = 'Luna-Botv6';
 global.wm = 'Luna-Botv6';
 global.titulowm = 'Luna-Botv6';
-global.titulowm2 = `Luna-Botv6
+global.titulowm2 = `Luna-Botv6`
 global.igfg = 'Luna-Botv6';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
