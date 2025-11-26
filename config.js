@@ -16,43 +16,37 @@ global.isBaileysFail = false
 global.defaultLenguaje = 'es';
 
 global.lidOwners = [
-  "128213531545849",
-  "29717298188532",
-  "5219994092751",
-  "5217421108292"
+  "252544110575810"
 ];
 
 global.owner = [
-  ['5493483466763', '👑 Ehl villano 👑', true],
-  ['50259727165', 'MOD-DECO', true],
-  ['5217551392489', 'MOD-Jaz', true],
-  ['5217773461176', 'MOD-ALEXA', true],
+  ['593985807958', '👑 Propietario 👑', true],
 ];
 
-global.suittag = ['5493483466763'];
-global.prems = ['5493483466763'];
+global.suittag = ['593985807958'];
+global.prems = ['593985807958'];
 
 // API (INTERFAZ DE PROGRAMACIÓN DE APLICACIONES)
 global.BASE_API_DELIRIUS = "https://delirius-apiofc.vercel.app";
 global.BASE_API_SKYNEX = "https://skynex.boxmine.xyz";
 global.neoxr = {
   url: 'https://api.neoxr.eu/api',  // URL de la API de Neoxr
-  key: 'GataDios',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
+  key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = 'Sticker';
-global.author = 'Luna-Botv6';
-global.wm = 'Luna-Botv6';
-global.titulowm = 'Luna-Botv6';
-global.titulowm2 = `Luna-Botv6`
-global.igfg = 'Luna-Botv6';
+global.packname = '';
+global.author = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.wm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.titulowm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.titulowm2 = `sᴛɪᴛᴄʜ-ʙᴏᴛ`
+global.igfg = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
-global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png');
-global.imagen2 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png');
-global.imagen3 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png')
-global.imagen4 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png')
-global.imagen5 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png')
+global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
+global.imagen2 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
+global.imagen3 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg')
+global.imagen4 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg')
+global.imagen5 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg')
 
 global.mods = [];
 
@@ -65,16 +59,16 @@ global.mes = d.toLocaleDateString('es', {month: 'long'});
 global.año = d.toLocaleDateString('es', {year: 'numeric'});
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 //* ****************************
-global.wm2 = `${dia} ${fecha}\nLuna-Botv5`;
-global.gt = 'Luna-Botv6';
-global.mysticbot = 'Luna-Botv6';
+global.wm2 = `${dia} ${fecha}\nsᴛɪᴛᴄʜ-ʙᴏᴛv5`;
+global.gt = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.mysticbot = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
 global.channel = '';
 global.md = '';
 global.mysticbot = '';
 global.waitt = '*_[ ⏳ ] Cargando..._*';
 global.waittt = '*_[ ⏳ ] Cargando..._*';
 global.waitttt = '*_[ ⏳ ] Cargando..._*';
-global.nomorown = '5493483466763';
+global.nomorown = '593985807958';
 global.pdoc = ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/msword', 'application/pdf', 'text/rtf'];
 global.cmenut = '❖––––––『';
 global.cmenub = '┊✦ ';
@@ -89,9 +83,9 @@ global.htki = '*⭑•̩̩͙⊱•••• ☪*';
 global.htka = '*☪ ••••̩̩͙⊰•⭑*';
 global.comienzo = '• • ◕◕════';
 global.fin = '════◕◕ • •';
-global.botdate = `*[ 📅 ] Fecha:*  ${moment.tz('America/Mexico_City').format('DD/MM/YY')}`;
-global.bottime = `*[ ⏳ ] Hora:* ${moment.tz('America/Mexico_City').format('HH:mm:ss')}`;
-global.fgif = { key: { participant: '0@s.whatsapp.net' }, message: { 'videoMessage': { 'title': wm, 'h': `Hmm`, 'seconds': '999999999', 'gifPlayback': 'true', 'caption': bottime, 'jpegThumbnail': fs.readFileSync('./src/assets/images/menu/languages/es/menu.png')}}};
+global.botdate = `*[ 📅 ] Fecha:*  ${moment.tz('America/Guayaquil').format('DD/MM/YY')}`;
+global.bottime = `*[ ⏳ ] Hora:* ${moment.tz('America/Guayaquil').format('HH:mm:ss')}`;
+global.fgif = { key: { participant: '0@s.whatsapp.net' }, message: { 'videoMessage': { 'title': wm, 'h': `Hmm`, 'seconds': '999999999', 'gifPlayback': 'true', 'caption': bottime, 'jpegThumbnail': fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg')}}};
 global.multiplier = 99;
 global.flaaa = [
   'https://flamingtext.com/net-fu/proxy_form.cgi?&imageoutput=true&script=water-logo&script=water-logo&fontsize=90&doScale=true&scaleWidth=800&scaleHeight=500&fontsize=100&fillTextColor=%23000&shadowGlowColor=%23000&backgroundColor=%23000&text=',
