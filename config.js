@@ -16,11 +16,13 @@ global.isBaileysFail = false
 global.defaultLenguaje = 'es';
 
 global.lidOwners = [
-  "252544110575810"
+  "252544110575810",
+  "147919411908856"
 ];
 
 global.owner = [
   ['593985807958', '👑 Propietario 👑', true],
+  ['593990110616', 'Stitch', true],
 ];
 
 global.suittag = ['593985807958'];
@@ -59,7 +61,7 @@ global.mes = d.toLocaleDateString('es', {month: 'long'});
 global.año = d.toLocaleDateString('es', {year: 'numeric'});
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 //* ****************************
-global.wm2 = `${dia} ${fecha}\nLuna-Botv5`;
+global.wm2 = `${dia} ${fecha}\nLuna-Botv6`;
 global.gt = 'Luna-Botv6';
 global.mysticbot = 'Luna-Botv6';
 global.channel = '';
