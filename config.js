@@ -36,12 +36,12 @@ global.neoxr = {
   key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = '';
-global.author = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.wm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.titulowm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.titulowm2 = `sᴛɪᴛᴄʜ-ʙᴏᴛ`
-global.igfg = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.packname = 'Sticker';
+global.author = 'Luna-Botv6';
+global.wm = 'Luna-Botv6';
+global.titulowm = 'Luna-Botv6';
+global.titulowm2 = `Luna-Botv6`
+global.igfg = 'Luna-Botv6';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
 global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
@@ -61,7 +61,7 @@ global.mes = d.toLocaleDateString('es', {month: 'long'});
 global.año = d.toLocaleDateString('es', {year: 'numeric'});
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 //* ****************************
-global.wm2 = `${dia} ${fecha}\nLuna-Botv6`;
+global.wm2 = `${dia} ${fecha}\nLuna-Botv5`;
 global.gt = 'Luna-Botv6';
 global.mysticbot = 'Luna-Botv6';
 global.channel = '';
