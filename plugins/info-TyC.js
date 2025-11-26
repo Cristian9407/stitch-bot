@@ -17,13 +17,13 @@ ${tradutor.texto1}
 📌 *Uso del Bot:* Al interactuar con StitchBotV6, aceptas automáticamente estos términos.
 
 📣 *Canal Oficial de WhatsApp:*
-🔗 https://www.whatsapp.com/channel/0029VbANyNuLo4hedEWlvJ3Y
+🔗 https://whatsapp.com/channel/0029VaDSuZcATRSmU4LvDm0Q
 
 🤖 *Bot:* StitchBotV6 — un bot multifuncional diseñado para ofrecerte herramientas útiles, entretenimiento y automatización con estilo.
 
-🧙 *Creador Principal:* *Evproject* (Desarrollador de StitchBotV6)
+🧙 *Creador Principal:* *Cristian* (Desarrollador de StitchBotV6)
 
-🧠 *Créditos Especiales:* Agradecimientos a *Bruno Sobrino*, cuyo código base inspiró y dio origen a este proyecto.
+🧠 *Créditos Especiales:* Agradecimientos a *Cristian*, cuyo código base inspiró y dio origen a este proyecto.
 
 ━━━━━━━━━━━━━━━━━━━━━━━
 💌 *Gracias por confiar en este proyecto y ser parte de nuestra comunidad.*
