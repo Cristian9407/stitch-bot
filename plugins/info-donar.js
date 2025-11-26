@@ -8,12 +8,12 @@ const handler = async (m, { conn }) => {
 ¡Hola, *${name}*!  
 Gracias por usar *StitchBot V6*.
 
-Este bot está inspirado en el gran trabajo de *Bruno Sobrino* y su bot *Mystic-Bot*.  
+Este bot está inspirado en el gran trabajo de *Cristian C* y su bot *Stitch-Bot*.  
 Gracias a su aporte, fue posible crear nuevas herramientas y funciones útiles para ti.
 
 ✨ *Si quieres hacer una donación*  
 Puedes hacerlo desde el siguiente enlace:
-👉 _https://www.paypal.me/BrunoSob_
+👉 _https://www.paypal.me/CriSy94_
 
 Cualquier donación es muy apreciada ❤️
 
