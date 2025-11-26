@@ -61,7 +61,7 @@ global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', s
 //* ****************************
 global.wm2 = `${dia} ${fecha}\nsᴛɪᴛᴄʜ-ʙᴏᴛv5`;
 global.gt = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.mysticbot = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.mysticbot = 'Luna-Botv6';
 global.channel = '';
 global.md = '';
 global.mysticbot = '';
