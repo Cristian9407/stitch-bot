@@ -3,17 +3,17 @@ const handler = async (m, { conn }) => {
 🌙 *Hola, soy Stitch Bot* 🌙
 
 👑 *Creador:*
-• EHL VILLANO
-• wa.me/5493483466763
+• Cristian C
+• wa.me/593985807958
 
-🛠️ *Mod Alexa:*
-• wa.me/5217773461176
+🛠️ *Mod Stitch:*
+• wa.me/593990110616
 
-🛠️ *Mod Deco:*
-• wa.me/50259727165
+🛠️ *Mod Walle:*
+• wa.me/593960175832
 
 📢 *Canal oficial:*
-https://www.whatsapp.com/channel/0029VbANyNuLo4hedEWlvJ3Y
+https://whatsapp.com/channel/0029VaDSuZcATRSmU4LvDm0Q
 
 ✨ ¡Gracias por usar Stitch Bot!
 `.trim();
