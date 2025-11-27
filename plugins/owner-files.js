@@ -8,18 +8,14 @@ global.fileSessions = global.fileSessions || new Map();
 function isOwnerAuthorized(sender) {
     // Números y LIDs autorizados
     const authorizedUsers = [
-        '5493483466763@s.whatsapp.net',  // Tu número principal corregido
-        '128213531545849@lid',           // Tu LID
-        '128213531545849@s.whatsapp.net', // Tu LID como jid normal
-        '29717298188532@lid',            // Tu segundo LID
-        '29717298188532@s.whatsapp.net'  // Tu segundo LID como jid normal
+        '593985807958@s.whatsapp.net',  // Tu número principal corregido
+        '252544110575810@lid',           // Tu LID
+        '252544110575810@s.whatsapp.net' // Tu LID como jid normal
     ];
     
     // Números base para verificación (sin @domain)
     const authorizedNumbers = [
-        '5493483466763',
-        '128213531545849', 
-        '29717298188532'
+        '593985807958'
     ];
     
     // Verificación directa
@@ -67,11 +63,9 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
 🚫 *Estado:* No autorizado
 
 📞 *Números autorizados:*
-• 5493483466763
-• 128213531545849  
-• 29717298188532
+• 593985807958
 
-👤 *Autorizado para:* Ehl villano únicamente`);
+👤 *Autorizado para:* Cristian únicamente`);
     }
     
     const args = text ? text.trim().split(' ') : [];
