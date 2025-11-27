@@ -19,12 +19,12 @@ const handler = async (m, { conn, usedPrefix }) => {
   const old = performance.now();
   const neww = performance.now();
   const rtime = (neww - old).toFixed(7);
-  const wm = 'EHL VILLANO - Bot MD';
+  const wm = 'Stitch-Botv6';
 
   const info = `╭━━〔 *${tradutor.texto1[0]}* 〕━━⬣
-┃👑 *${tradutor.texto1[1]}* EHL VILLANO
-┃📞 *${tradutor.texto1[2]}* wa.me/5493483466763
-┃📢 *Canal:* https://whatsapp.com/channel/0029VbANyNuLo4hedEWlvJ3Y
+┃👑 *${tradutor.texto1[1]}* Cristian
+┃📞 *${tradutor.texto1[2]}* wa.me/593985807958
+┃📢 *Canal:* https://whatsapp.com/channel/0029VaDSuZcATRSmU4LvDm0Q
 ┃🚀 *${tradutor.texto1[4]}* ${rtime}
 ┃⏰ *${tradutor.texto1[5]}* ${uptime}
 ┃💻 *${tradutor.texto1[6]}* ${usedPrefix}
