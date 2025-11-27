@@ -34,12 +34,12 @@ global.neoxr = {
   key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = '';
-global.author = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.wm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.titulowm = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
-global.titulowm2 = `sᴛɪᴛᴄʜ-ʙᴏᴛ`
-global.igfg = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.packname = 'Sticker';
+global.author = 'Stitch-Botv6';
+global.wm = 'Stitch-Botv6';
+global.titulowm = 'Stitch-Botv6';
+global.titulowm2 = `Stitch-Botv6`
+global.igfg = 'Stitch-Botv6';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
 global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
