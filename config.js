@@ -59,12 +59,12 @@ global.mes = d.toLocaleDateString('es', {month: 'long'});
 global.año = d.toLocaleDateString('es', {year: 'numeric'});
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 //* ****************************
-global.wm2 = `${dia} ${fecha}\nStitch-Botv5`;
+global.wm2 = `${dia} ${fecha}\nStitch-Botv6`;
 global.gt = 'Stitch-Botv6';
 global.mysticbot = 'Stitch-Botv6';
-global.channel = '';
-global.md = '';
-global.mysticbot = '';
+global.channel = 'https://whatsapp.com/channel/0029VaDSuZcATRSmU4LvDm0Q';
+global.md = 'https://github.com/Cristian9407/stitch-bot';
+global.mysticbot = 'https://github.com/Cristian9407/stitch-bot';
 global.waitt = '*_[ ⏳ ] Cargando..._*';
 global.waittt = '*_[ ⏳ ] Cargando..._*';
 global.waitttt = '*_[ ⏳ ] Cargando..._*';
