@@ -59,8 +59,8 @@ global.mes = d.toLocaleDateString('es', {month: 'long'});
 global.año = d.toLocaleDateString('es', {year: 'numeric'});
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 //* ****************************
-global.wm2 = `${dia} ${fecha}\nsᴛɪᴛᴄʜ-ʙᴏᴛv6`;
-global.gt = 'sᴛɪᴛᴄʜ-ʙᴏᴛ';
+global.wm2 = `${dia} ${fecha}\nStitch-Botv5`;
+global.gt = 'Stitch-Botv6';
 global.mysticbot = 'Stitch-Botv6';
 global.channel = '';
 global.md = '';
