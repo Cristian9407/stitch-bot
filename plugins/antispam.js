@@ -7,7 +7,7 @@ const MESSAGE_LENGTH_LIMIT = 6000  // Aumentado de 4000 a 6000 caracteres
 const WARNINGS_BEFORE_BAN = 5  // Aumentado de 3 a 5 advertencias
 const WARNING_COOLDOWN = 2 * 60 * 1000  // 2 minutos de cooldown entre advertencias
 
-global.antispamActivo = true
+global.antispamActivo = false
 
 const frasesOwnerSpam = [
   '🤖 *Jajaja casi te bloqueo...* Te salvaste por ser *owner*, si no ya estarías en la lista negra. Te estoy vigilando... 👀🔥',
