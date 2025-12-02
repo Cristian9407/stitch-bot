@@ -2,7 +2,7 @@ const cooldowns = new Map();
 
 const handler = async (m, { conn, participants, args, isOwner }) => {
   const chatId = m.chat;
-  const cooldownTime = 00 * 15 * 1000;
+  const cooldownTime = 1 * 30 * 1000;
   const now = Date.now();
 
   const groupMetadata = await conn.groupMetadata(chatId);
@@ -23,8 +23,8 @@ const handler = async (m, { conn, participants, args, isOwner }) => {
     const expirationTime = cooldowns.get(chatId) + cooldownTime;
     if (now < expirationTime) {
       const timeLeft = Math.ceil((expirationTime - now) / 1000);
-      const minutes = Math.floor(timeLeft / 00);
-      const seconds = timeLeft % 15;
+      const minutes = Math.floor(timeLeft / 30);
+      const seconds = timeLeft % 30;
       return m.reply(`⏰ Debes esperar ${minutes}m ${seconds}s antes de usar este comando nuevamente.`);
     }
   }
