@@ -2,7 +2,7 @@ const cooldowns = new Map();
 
 const handler = async (m, { conn, participants, args, isOwner }) => {
   const chatId = m.chat;
-  const cooldownTime = 2 * 60 * 1000;
+  const cooldownTime = 00 * 15 * 1000;
   const now = Date.now();
 
   const groupMetadata = await conn.groupMetadata(chatId);
