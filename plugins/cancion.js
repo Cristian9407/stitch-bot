@@ -1,52 +1,48 @@
-const timeout = 60000;
-const poin = 1000;
+mport similarity from 'similarity';
+import fs from 'fs';
 
-const handler = async (m, { conn }) => {
-  conn.tebaklagu = conn.tebaklagu || {};
-  const id = m.chat;
-  if (id in conn.tebaklagu) {
-    return conn.reply(m.chat, '🎵 Ya hay una canción activa. Usa /pista4 o responde al mensaje.', conn.tebaklagu[id][0]);
-  }
+const threshold = 0.72;
+const handler = {
+  
+  async before(m) {
+    const datas = global
+    const idioma = datas.db.data.users[m.sender].language || global.defaultLenguaje
+    const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
+    const tradutor = _translate.plugins.game__cancion
 
-  const cancionesPopulares = [
-    { link_song: "https://files.catbox.moe/y4kflr.mp3", jawaban: "Ella Baila Sola - Peso Pluma" },
-    { link_song: "https://files.catbox.moe/kwt80n.mp3", jawaban: "Quién como tú - Ana Gabriel" },
-    { link_song: "https://files.catbox.moe/02ztlq.mp3", jawaban: "Mujeres Divinas - Vicente Fernández" },
-    { link_song: "https://files.catbox.moe/6wzivn.mp3", jawaban: "Rata de Dos Patas - Paquita la del Barrio" },
-    { link_song: "https://files.catbox.moe/2e4kqk.mp3", jawaban: "Tití Me Preguntó - Bad Bunny" },
-    { link_song: "https://files.catbox.moe/n1q7o2.mp3", jawaban: "BZRP Music Sessions #50 - Duki" },
-    { link_song: "https://files.catbox.moe/uq8pco.mp3", jawaban: "Muchachos - La Mosca" }
-  ];
-
-  const seleccion = cancionesPopulares[Math.floor(Math.random() * cancionesPopulares.length)];
-  const caption = `
-🎧 *¡Adivina la canción!*
-
-⏳ Tienes ${(timeout / 1000).toFixed(0)} segundos.
-🔁 Responde a este mensaje o usa: */rpcancion tu_respuesta*
-💡 Pista: */pista4*
-🏆 Premio: ${poin} XP
-`.trim();
-
-  const pregunta = await m.reply(caption);
-  conn.tebaklagu[id] = [
-    pregunta,
-    seleccion,
-    poin,
-    setTimeout(() => {
-      if (conn.tebaklagu[id]) {
-        conn.reply(m.chat, `⏱️ Tiempo agotado. La respuesta era: *${seleccion.jawaban}*`, conn.tebaklagu[id][0]);
-        delete conn.tebaklagu[id];
+    const id = m.chat;
+    
+    if (!m.quoted || !m.quoted.fromMe || !m.quoted.isBaileys || !/ADIVINA EL TITULO DE LA CANCION/i.test(m.quoted.text)) return !0;
+    
+    this.tebaklagu = this.tebaklagu ? this.tebaklagu : {};
+    if (!(id in this.tebaklagu)) return m.reply(tradutor.texto1 || "No hay juego activo en este chat.");
+    
+    if (m.quoted.id == this.tebaklagu[id][0].id) {
+      const json = JSON.parse(JSON.stringify(this.tebaklagu[id][1]));
+      
+      const normalizeText = (text) => {
+        return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, "").trim();
+      };
+      
+      const userAnswer = normalizeText(m.text);
+      const correctAnswer = normalizeText(json.jawaban);
+      
+      if (userAnswer === correctAnswer) {
+        global.db.data.users[m.sender].exp += this.tebaklagu[id][2];
+        m.reply(`🎉 ¡Correcto!\n\n🎵 *${json.jawaban}* de *${json.artist}*\n💰 +${this.tebaklagu[id][2]} XP`);
+        clearTimeout(this.tebaklagu[id][3]);
+        delete this.tebaklagu[id];
+      } else if (similarity(userAnswer, correctAnswer) >= threshold) {
+        // Respuesta muy similar
+        m.reply(`🎯 ¡Casi! Estás muy cerca...`);
+      } else {
+        // Respuesta incorrecta
+        m.reply(tradutor.texto2 || "❌ Incorrecto. ¡Sigue intentando!");
       }
-    }, timeout)
-  ];
-
-  await conn.sendMessage(m.chat, {
-    audio: { url: seleccion.link_song },
-    fileName: `cancion.mp3`,
-    mimetype: 'audio/mpeg'
-  }, { quoted: pregunta });
+    }
+    return !0;
+  },
+  exp: 0,
 };
 
-handler.command = /^cancion|canción$/i;
 export default handler;
