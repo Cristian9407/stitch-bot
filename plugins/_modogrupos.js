@@ -1,3 +1,4 @@
+
 import { watchFile, unwatchFile } from 'fs'
 import { isFunctionEnabled } from '../lib/owner-funciones.js'
 
@@ -74,44 +75,5 @@ export async function before(m, { conn, isOwner, isROwner }) {
     
   } catch (e) {
     return false
-  }
-}        }
-      }, 500);
-      
-      return true;
-    }
-
-    const warnings = {
-      1: '⚠️ *ADVERTENCIA 1/3*\n\n*El bot no responde chats privados.*\n\n🔹 Para usar el bot, agrégalo a un grupo.\n🔹 Si insistes, serás bloqueado después de 3 advertencias.',
-      2: '⚠️ *ADVERTENCIA 2/3*\n\n*Segunda advertencia: El bot NO funciona en privado.*\n\n🔹 Agrégame a un grupo para usarme.\n🔸 *Una advertencia más y serás bloqueado.*'
-    };
-
-    if (warnings[userData.warnings]) {
-      setTimeout(async () => {
-        try {
-          await conn.sendMessage(m.chat, { 
-            text: warnings[userData.warnings] 
-          }, { quoted: m });
-        } catch (e) {
-          console.error('Error enviando advertencia:', e.message);
-        }
-      }, 500);
-    }
-
-    console.log(`⚠️ Advertencia ${userData.warnings}/3 a ${sender}`);
-    
-    if (global.modogruposWarnings.size > 500) {
-      const entries = Array.from(global.modogruposWarnings.entries());
-      entries.sort((a, b) => a[1].lastWarning - b[1].lastWarning);
-      for (let i = 0; i < 250; i++) {
-        global.modogruposWarnings.delete(entries[i][0]);
-      }
-    }
-
-    return true;
-
-  } catch (e) {
-    console.error('❌ Error en modogrupos:', e.message);
-    return false;
   }
 }
