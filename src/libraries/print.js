@@ -9,7 +9,6 @@ const MAX_MESSAGE_LENGTH = 400;
 
 const nameCache = new Map();
 const phoneCache = new Map();
-const lidToJidCache = global.lidToJidCache || (global.lidToJidCache = new Map());
 const lidToNameCache = global.lidToNameCache || (global.lidToNameCache = new Map());
 
 function formatPhoneNumber(jid) {
@@ -60,17 +59,9 @@ function formatPhoneNumber(jid) {
 
 async function getCachedName(conn, jid) {
   try {
-    if (jid.includes('@g.us')) {
-      const name = await conn.getName(jid);
-      if (name && name.trim()) {
-        nameCache.set(jid, name);
-        return name;
-      }
-    } else {
-      if (nameCache.has(jid)) return nameCache.get(jid);
-    }
+    if (nameCache.has(jid)) return nameCache.get(jid);
     
-    const name = await conn.getName(jid);
+    const name = await conn.getName(jid).catch(() => null);
     const finalName = name && name.trim() ? name : (
       jid.includes('@g.us') ? 'Grupo sin nombre' : 'Usuario sin nombre'
     );
@@ -80,105 +71,6 @@ async function getCachedName(conn, jid) {
     const fallbackName = jid.includes('@g.us') ? 'Grupo sin nombre' : 'Usuario sin nombre';
     nameCache.set(jid, fallbackName);
     return fallbackName;
-  }
-}
-
-async function resolveLidToJid(conn, lidJid, chatJid, pushName, messageObj) {
-  try {
-    if (lidToJidCache.has(lidJid)) {
-      return lidToJidCache.get(lidJid);
-    }
-
-    if (pushName && pushName.trim()) {
-      lidToNameCache.set(lidJid, pushName.trim());
-    }
-
-    const botJid = conn.user?.jid;
-    const botName = conn.user?.name;
-    if (botJid && botName && pushName) {
-      const cleanBotName = botName.toLowerCase().trim();
-      const cleanPushName = pushName.toLowerCase().trim();
-      
-      if (cleanBotName.includes(cleanPushName) || cleanPushName.includes(cleanBotName)) {
-        lidToJidCache.set(lidJid, botJid);
-        return botJid;
-      }
-    }
-
-    if (messageObj?.key?.fromMe) {
-      const botJid = conn.user?.jid;
-      if (botJid) {
-        lidToJidCache.set(lidJid, botJid);
-        return botJid;
-      }
-    }
-
-    if (chatJid && chatJid.includes('@g.us')) {
-      try {
-        const groupMetadata = await conn.groupMetadata(chatJid);
-        
-        for (const participant of groupMetadata.participants) {
-          const participantJid = participant.id;
-          
-          if (participantJid.includes('@s.whatsapp.net') || participantJid.includes('@c.us')) {
-            try {
-              const participantName = await conn.getName(participantJid);
-              const participantNotify = participant.notify || '';
-              
-              if (pushName) {
-                const cleanPushName = pushName.toLowerCase().trim();
-                const cleanParticipantName = (participantName || '').toLowerCase().trim();
-                const cleanNotify = (participantNotify || '').toLowerCase().trim();
-                
-                if ((cleanParticipantName && cleanParticipantName === cleanPushName) ||
-                    (cleanNotify && cleanNotify === cleanPushName)) {
-                  lidToJidCache.set(lidJid, participantJid);
-                  return participantJid;
-                }
-              }
-            } catch (nameError) {
-            }
-          }
-        }
-      } catch (groupError) {
-      }
-    }
-
-    try {
-      if (conn.contacts && typeof conn.contacts === 'object') {
-        for (const [contactJid, contactInfo] of Object.entries(conn.contacts)) {
-          if (contactInfo && pushName) {
-            const contactName = contactInfo.name || '';
-            const contactNotify = contactInfo.notify || '';
-            
-            const cleanPushName = pushName.toLowerCase().trim();
-            const cleanContactName = contactName.toLowerCase().trim();
-            const cleanContactNotify = contactNotify.toLowerCase().trim();
-            
-            if ((cleanContactName && cleanContactName === cleanPushName) ||
-                (cleanContactNotify && cleanContactNotify === cleanPushName)) {
-              lidToJidCache.set(lidJid, contactJid);
-              return contactJid;
-            }
-          }
-        }
-      }
-    } catch (contactError) {
-    }
-
-    if (pushName && pushName.toLowerCase().includes('bot')) {
-      const botJid = conn.user?.jid;
-      if (botJid) {
-        lidToJidCache.set(lidJid, botJid);
-        return botJid;
-      }
-    }
-
-    lidToJidCache.set(lidJid, lidJid);
-    return lidJid;
-
-  } catch (error) {
-    return lidJid;
   }
 }
 
@@ -200,30 +92,23 @@ function getFriendlyName(jid, pushName) {
 }
 
 setInterval(() => {
-  if (nameCache.size > 1000) nameCache.clear();
-  if (phoneCache.size > 1000) phoneCache.clear();
-  if (lidToJidCache.size > 500) lidToJidCache.clear();
-  if (lidToNameCache.size > 500) lidToNameCache.clear();
-}, 300000);
+  if (nameCache.size > 500) {
+    const keys = Array.from(nameCache.keys()).slice(0, 250);
+    keys.forEach(k => nameCache.delete(k));
+  }
+  if (phoneCache.size > 500) {
+    const keys = Array.from(phoneCache.keys()).slice(0, 250);
+    keys.forEach(k => phoneCache.delete(k));
+  }
+  if (lidToNameCache.size > 200) {
+    const keys = Array.from(lidToNameCache.keys()).slice(0, 100);
+    keys.forEach(k => lidToNameCache.delete(k));
+  }
+}, 600000);
 
 async function printMessage(m, conn = { user: {} }) {
-  const possibleSenders = [
-    m.sender,
-    m.key?.participant,
-    m.key?.remoteJid,
-    m.participant,
-    m.from
-  ];
-  
-  let senderJid = possibleSenders.find(s => s && !s.includes('@g.us')) || '';
+  let senderJid = m.sender || m.key?.participant || m.participant || m.from || '';
   const chatJid = m.chat || m.key?.remoteJid || '';
-  
-  if (senderJid && senderJid.includes('@lid')) {
-    const resolvedJid = await resolveLidToJid(conn, senderJid, chatJid, m.pushName, m);
-    if (resolvedJid !== senderJid) {
-      senderJid = resolvedJid;
-    }
-  }
   
   const [senderName, chatName] = await Promise.all([
     senderJid ? getCachedName(conn, senderJid) : Promise.resolve('Usuario desconocido'),
@@ -273,21 +158,21 @@ async function printMessage(m, conn = { user: {} }) {
 
   console.log(chalk.bold.cyanBright('╭⋙════ ⋆★⋆ ════ ⋘•>🌙 <•⋙════ ⋆★⋆ ════ ⋙╮'));
   console.log('');
-  console.log(chalk.bold.cyanBright('⎨') + chalk.bold.magentaBright('            ✧°˚ Stitch-BotV6 ˚°✧         '));
+  console.log(chalk.bold.cyanBright('⎨') + chalk.bold.magentaBright('            ✧°ˆ Luna-BotV6 ˆ°✧         '));
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.redBright('→🤖 Stitch-Bot:')} ${mePhone} ~ ${conn.user.name}${conn.user.jid !== global.conn?.user?.jid ? chalk.gray(' (Sub Bot)') : ''}`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.redBright('↑🤖 Luna-Bot:')} ${mePhone} ~ ${conn.user.name}${conn.user.jid !== global.conn?.user?.jid ? chalk.gray(' (Sub Bot)') : ''}`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.yellow('→⏰ Hora:')} ${chalk.yellow(time)}`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.yellow('↑° Hora:')} ${chalk.yellow(time)}`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.green('→📑 Tipo:')} ${chalk.green(stubType)}`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.green('↑📋 Tipo:')} ${chalk.green(stubType)}`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.magenta('→📊 Tamaño:')} ${filesize} [${formatFileSize(filesize)}]`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.magenta('↑📊 Tamaño:')} ${filesize} [${formatFileSize(filesize)}]`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.green('→📤 De:')} ${chalk.green(sender)}${lidInfo}`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.green('↑📤 De:')} ${chalk.green(sender)}${lidInfo}`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.yellow('→📥 En:')} ${chalk.yellow(chatName)} (${chatJid})`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.yellow('↑📥 En:')} ${chalk.yellow(chatName)} (${chatJid})`);
   console.log('');
-  console.log(chalk.cyanBright('⎨') + ` ${chalk.cyan('→💬 Tipo Msg:')} ${chalk.cyan(msgType)}`);
+  console.log(chalk.cyanBright('⎨') + ` ${chalk.cyan('↑💬 Tipo Msg:')} ${chalk.cyan(msgType)}`);
   console.log(chalk.bold.cyanBright('╰⋙════ ⋆★⋆ ════ ⋘•>🌙 <•⋙════ ⋆★⋆ ════ ⋙╯'));
 
   if (typeof m.text === 'string' && m.text) {
@@ -323,10 +208,11 @@ async function printMessage(m, conn = { user: {} }) {
         return { jid: user, name };
       });
 
-      const mentions = await Promise.all(mentionPromises);
-      mentions.forEach(({ jid, name }) => {
-        log = log.replace('@' + jid.split('@')[0], chalk.blueBright('@' + name));
-      });
+      Promise.all(mentionPromises).then(mentions => {
+        mentions.forEach(({ jid, name }) => {
+          log = log.replace('@' + jid.split('@')[0], chalk.blueBright('@' + name));
+        });
+      }).catch(() => {});
     }
 
     console.log(m.error != null ? chalk.red(log) : m.isCommand ? chalk.yellow(log) : log);
@@ -340,12 +226,13 @@ async function printMessage(m, conn = { user: {} }) {
       return chalk.gray(phone + (name && name !== 'Usuario sin nombre' ? ' ~' + name : ''));
     });
 
-    const names = await Promise.all(namePromises);
-    console.log(names.join(', '));
+    Promise.all(namePromises).then(names => {
+      console.log(names.join(', '));
+    }).catch(() => {});
   }
 
   if (/document/i.test(m.mtype)) {
-    console.log(`🗂️ Documento: ${m.msg?.fileName || m.msg?.displayName || 'Archivo'}`);
+    console.log(`📂️ Documento: ${m.msg?.fileName || m.msg?.displayName || 'Archivo'}`);
   } else if (/ContactsArray/i.test(m.mtype)) {
     console.log('👥 Contactos múltiples');
   } else if (/contact/i.test(m.mtype)) {
@@ -363,5 +250,5 @@ export { printMessage };
 
 const file = global.__filename(import.meta.url);
 watchFile(file, () => {
-  console.log(chalk.redBright("Se actualizó 'lib/print.js'"));
+  console.log(chalk.redBright("Se actualizó 'print.js'"));
 });
