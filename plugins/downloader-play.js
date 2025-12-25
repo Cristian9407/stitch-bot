@@ -3,7 +3,7 @@ import yts from 'yt-search';
 import fetch from 'node-fetch';
 
 const configContent = fs.readFileSync('./config.js', 'utf-8');
-if (!configContent.includes('Luna-Botv6')) {
+if (!configContent.includes('Stitch-Botv6')) {
   throw new Error('Handler bloqueado: Stitch-Botv6 no encontrado.');
 }
 
