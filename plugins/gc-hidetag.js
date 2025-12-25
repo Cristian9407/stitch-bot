@@ -2,7 +2,7 @@ import {generateWAMessageFromContent} from "@whiskeysockets/baileys";
 import * as fs from 'fs';
 const cooldowns = new Map();
 const handler = async (m, {conn, text, isOwner, isAdmin}) => {
-  const cooldownTime = 2 * 60 * 1000;
+  const cooldownTime = 1 * 30 * 1000;
   const now = Date.now();
   
   const groupMetadata = await conn.groupMetadata(m.chat);
@@ -35,8 +35,8 @@ const handler = async (m, {conn, text, isOwner, isAdmin}) => {
       const expirationTime = cooldowns.get(userCooldownKey) + cooldownTime;
       if (now < expirationTime) {
         const timeLeft = Math.ceil((expirationTime - now) / 1000);
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
+        const minutes = Math.floor(timeLeft / 30);
+        const seconds = timeLeft % 30;
         return m.reply(`Debes esperar ${minutes}m ${seconds}s antes de usar este comando nuevamente.`);
       }
     }
