@@ -1,4 +1,3 @@
-
 export function isVoiceMessage(msg) {
   return false;
 }
