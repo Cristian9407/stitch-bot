@@ -9,7 +9,7 @@ import { unwatchFile, watchFile } from 'fs';
 import fs from 'fs';
 import chalk from 'chalk';
 import ws from 'ws';
-
+import { getGroupMetadata, handleParticipantsUpdate } from './lib/groupMetadata.js';
 import mentionListener from './plugins/game-ialuna.js';
 import { isVoiceMessage, handleVoiceMessage } from './plugins/voice-handler.js';
 import { getConfig, setConfig } from './lib/funcConfig.js';
@@ -33,26 +33,7 @@ const CACHE_TTL = 2 * 60 * 1000;
 const DUPLICATE_TIMEOUT = 3000;
 const MAX_CACHE_SIZE = 150;
 
-function getCachedGroupData(chatId) {
-  const cached = groupCache.get(chatId);
-  if (cached && (Date.now() - cached.timestamp) < CACHE_TTL) {
-    return cached.data;
-  }
-  groupCache.delete(chatId);
-  return null;
-}
 
-function setCachedGroupData(chatId, data) {
-  if (groupCache.size >= MAX_CACHE_SIZE) {
-    const firstKey = groupCache.keys().next().value;
-    groupCache.delete(firstKey);
-  }
-  
-  groupCache.set(chatId, {
-    data,
-    timestamp: Date.now()
-  });
-}
 
 const groupMetadataRequestCache = new Map();
 const processedVoiceMessages = new Set();
@@ -106,7 +87,7 @@ function getBotMetadata(conn) {
     console.error(`Error getting bot metadata: ${e.message}`);
   }
   return {
-    name: botMetadataCache.name || 'sᴛɪᴛᴄʜ-ʙᴏᴛ',
+    name: botMetadataCache.name || 'Luna-Bot',
     number: botMetadataCache.number || 'Sin número',
     jid: botMetadataCache.jid
   };
@@ -434,26 +415,6 @@ export async function handler(chatUpdate) {
 
       if (opts['nyimak'] || (!m.fromMe && opts['self']) || (opts['pconly'] && m.chat.endsWith('g.us')) || (opts['gconly'] && !m.chat.endsWith('g.us')) || (opts['swonly'] && m.chat !== 'status@broadcast')) return;
 
-      let sinPrefijoActivo = false;
-      if (m.text?.length > 0) {
-        sinPrefijoActivo = getSinPrefijo(m.chat);
-        if (sinPrefijoActivo) {
-          const partes = m.text.trim().split(/\s+/);
-          m.commandSinPrefijo = partes[0].toLowerCase();
-          m.argsSinPrefijo = partes.slice(1);
-          m.textoSinPrefijo = partes.slice(1).join(" ");
-        }
-
-        const globalPrefix = this.prefix || global.prefix;
-        const usedPrefix = matchPrefix(m.text, globalPrefix);
-        if (usedPrefix) {
-          const noPrefix = m.text.replace(usedPrefix, '');
-          const [command] = noPrefix.trim().split` `.filter((v) => v);
-          const text = noPrefix.trim().split` `.slice(1).join` `;
-          
-          
-        }
-      }
 
       if (m.message?.buttonsResponseMessage?.selectedButtonId) {
         m.text = m.message.buttonsResponseMessage.selectedButtonId;
@@ -494,13 +455,36 @@ export async function handler(chatUpdate) {
       if (m.isBaileys && !m.message?.audioMessage) return;
       m.exp += Math.ceil(Math.random() * 10);
 
-      if (['NJX-', 'EVO', 'Lyru-', 'BAE5', 'B24E', '8SCO', 'FizzxyTheGreat-'].some(prefix => m.id.startsWith(prefix))) return;
+     const globalPrefix = this.prefix || global.prefix;
+const usedPrefix = matchPrefix(m.text, globalPrefix);
+const sinPrefijoActivo = getSinPrefijo(m.chat);
+const isCommandText = usedPrefix || (sinPrefijoActivo && m.text?.length > 0);
 
-   let groupMetadata = {};
-      let participants = [];
-      let isAdmin = false;
-      let isRAdmin = false;
-      let isBotAdmin = false;
+const isStickerMessage = m.message?.stickerMessage || (m.quoted && m.quoted.mtype === 'stickerMessage');
+const hasCommandSticker = isStickerMessage && global.db.data.sticker && Object.keys(global.db.data.sticker).length > 0;
+
+if (m.isGroup && !isCommandText && !hasCommandSticker) {
+  return;
+}
+
+let groupMetadata = {};
+let participants = [];
+let isAdmin = false;
+let isRAdmin = false;
+let isBotAdmin = false;
+let userGroup = {};
+let botGroup = {};
+
+if (m.isGroup) {
+  const groupData = await getGroupMetadata(this, m.chat, groupCache, m.sender);
+  groupMetadata = groupData.groupMetadata;
+  participants = groupData.participants;
+  userGroup = groupData.userGroup;
+  botGroup = groupData.botGroup;
+  isAdmin = groupData.isAdmin;
+  isRAdmin = groupData.isRAdmin;
+  isBotAdmin = groupData.isBotAdmin;
+}
 
       const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins');
       const customCommandsDir = path.join(path.dirname(fileURLToPath(import.meta.url)), './custom-commands');
@@ -862,145 +846,23 @@ export async function participantsUpdate({ id, participants, action }) {
     const _translate = await loadTranslation(idioma);
     const tradutor = _translate.handler.participantsUpdate;
 
-    const m = mconn;
-    if (opts['self']) return;
-    if (global.db.data == null) await global.loadDatabase();
-    
-    const chat = global.db.data.chats[id] = getConfig(id);
-    const botTt = global.db.data.settings[mconn?.conn?.user?.jid] || {};
-    let text = '';
-    
-    const normalizedAction = action === 'leave' ? 'remove' : action;
-    
-    let participantsList = [];
-    if (Array.isArray(participants)) {
-      participantsList = participants.map(p => typeof p === 'string' ? JSON.parse(p) : p);
-    } else if (typeof participants === 'string') {
-      try {
-        participantsList = [JSON.parse(participants)];
-      } catch (e) {
-        participantsList = [{ phoneNumber: participants }];
-      }
-    }
-    
-    switch (normalizedAction) {
-      case 'add':
-      case 'remove':
-        if (chat.welcome && !chat?.isBanned) {
-          const groupMetadata = m?.conn?.chats[id]?.metadata || await m?.conn?.groupMetadata(id).catch(_ => ({}));
-          
-          for (const participant of participantsList) {
-            const userJid = participant.phoneNumber || participant.id || '';
-            
-            if (!userJid) continue;
-            if (normalizedAction === 'remove' && userJid === m?.conn?.user?.jid) return;
-            
-            console.log('DEBUG - userJid:', userJid);
-            console.log('DEBUG - action:', normalizedAction);
-            
-            let pp = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
-
-            try {
-              pp = await m?.conn?.profilePictureUrl(userJid, 'image');
-            } catch (e) {}
-            
-            const apii = await mconn?.conn?.getFile(pp).catch(() => ({}));
-            
-            let antiArab = [];
-            try {
-              const antiArabData = await fs.promises.readFile('./src/antiArab.json', 'utf8');
-              antiArab = JSON.parse(antiArabData);
-            } catch (e) {}
-            
-            const userPrefix = antiArab.some((prefix) => userJid.startsWith(prefix));
-            const botTt2 = groupMetadata?.participants?.find((u) => m?.conn?.decodeJid(u.id) == m?.conn?.user?.jid) || {};
-            const isBotAdminNn = botTt2?.admin === 'admin' || false;
-            
-            if (normalizedAction === 'add') {
-              if (chat.sWelcome && chat.sWelcome.trim() !== '') {
-                text = chat.sWelcome
-                  .replace('@user', '@' + userJid.split('@')[0])
-                  .replace('@subject', await m?.conn?.getName(id))
-                  .replace('@group', groupMetadata?.subject || 'Grupo')
-                  .replace('@desc', groupMetadata?.desc?.toString() || '*SIN DESCRIPCIÓN*');
-              } else {
-                text = (tradutor.texto1 || '¡Bienvenido/a @user!')
-                  .replace('@user', '@' + userJid.split('@')[0])
-                  .replace('@subject', await m?.conn?.getName(id))
-                  .replace('@group', groupMetadata?.subject || 'Grupo')
-                  .replace('@desc', groupMetadata?.desc?.toString() || '*SIN DESCRIPCIÓN*');
-              }
-            } else if (normalizedAction === 'remove') {
-              if (chat.sBye && chat.sBye.trim() !== '') {
-                text = chat.sBye.replace('@user', '@' + userJid.split('@')[0]);
-              } else {
-                text = (tradutor.texto2 || 'Adiós @user')
-                  .replace('@user', '@' + userJid.split('@')[0]);
-              }
-            }
-
-            if (userPrefix && chat.antiArab && botTt.restrict && isBotAdminNn && normalizedAction === 'add') {
-              try {
-                await m.conn.groupParticipantsUpdate(id, [userJid], 'remove');
-                const fkontak2 = { 'key': { 'participants': '0@s.whatsapp.net', 'remoteJid': 'status@broadcast', 'fromMe': false, 'id': 'Halo' }, 'message': { 'contactMessage': { 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${userJid.split('@')[0]}:${userJid.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` } }, 'participant': '0@s.whatsapp.net' };
-                await m?.conn?.sendMessage(id, { text: `*[•] @${userJid.split('@')[0]} en este grupo no se permiten numeros arabes ni raros.` }, { quoted: fkontak2 });
-              } catch (e) {
-                console.error('Error antiArab:', e.message);
-              }
-              return;
-            }
-            
-            if (apii?.data) {
-              try {
-                await m?.conn?.sendFile(id, apii.data, 'pp.jpg', text, null, false, { mentions: [userJid] });
-              } catch (e) {
-                console.error('Error con foto:', e.message);
-                await m?.conn?.sendMessage(id, { text, mentions: [userJid] }).catch(() => {});
-              }
-            } else {
-              try {
-                await m?.conn?.sendMessage(id, { text, mentions: [userJid] });
-              } catch (e) {
-                console.error('Error mensaje:', e.message);
-              }
-            }
-          }
-        }
-        break;
-        
-      case 'promote':
-      case 'daradmin':
-      case 'darpoder':
-        text = chat.sPromote || tradutor.texto3 || '@user ahora es admin';
-        
-      case 'demote':
-      case 'quitarpoder':
-      case 'quitaradmin':
-        if (!text) {
-          text = chat?.sDemote || tradutor.texto4 || '@user ya no es admin';
-        }
-        
-        if (participantsList.length > 0) {
-          const userJid = participantsList[0].phoneNumber || participantsList[0].id || '';
-          if (userJid) {
-            text = text.replace(/@user/g, '@' + userJid.split('@')[0]);
-            
-            if (chat.detect && !chat?.isBanned) {
-              try {
-                mconn?.conn?.sendMessage(id, { text, mentions: [userJid] });
-              } catch (e) {
-                console.error('Error promote:', e.message);
-              }
-            }
-          }
-        }
-        break;
-    }
+    await handleParticipantsUpdate(
+      mconn,
+      id,
+      participants,
+      action,
+      global.loadDatabase,
+      getConfig,
+      global.db,
+      idioma,
+      tradutor,
+      opts,
+      groupCache
+    );
   } catch (e) {
     console.error('participantsUpdate:', e.message);
   }
 }
-
 export async function groupsUpdate(groupsUpdate) {
   try {
     if (opts['self'] || !global.db.data || !mconn?.conn) return;
