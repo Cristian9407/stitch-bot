@@ -782,7 +782,7 @@ setInterval(async () => {
   if (stopped === 'close' || !global.conn || !global.conn?.user) return;
   const _uptime = process.uptime() * 1000;
   const uptime = clockString(_uptime);
-  const bio = `• Activo: ${uptime} | Stitch Bot`;
+  const bio = `• Activo: ${uptime} | TheMystic-Bot-MD`;
   await global.conn?.updateProfileStatus(bio).catch(() => {});
 }, 60000);
 
