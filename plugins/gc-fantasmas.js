@@ -4,9 +4,6 @@ const handler = async (m, {conn, text, participants}) => {
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
   const tradutor = _translate.plugins.gc_fantasmas
 
-  if (!isUserAdmin && !isOwner && !isLidOwner && !isGlobalOwner) {
-    return m.reply('Este comando solo puede ser usado por administradores del grupo.');
-
   const member = participants.map((u) => u.id);
   if (!text) {
     var sum = member.length;
