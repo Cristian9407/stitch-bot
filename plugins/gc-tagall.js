@@ -24,9 +24,9 @@ const handler = async (m, { conn, participants, args, isOwner }) => {
     }
   }
   cooldowns.set(chatId, now);
-  const messageText = args.join(' ') || '            *A T E N C I Ó N*';
+  const messageText = args.join(' ') || '*Atención*';
   let readmore = String.fromCharCode(8206).repeat(4001)
-  let teks = `╭╴╴╴╴ *T O D O S*  ╴╴╴╮\n`;
+  let teks = `⟩⟩⟫ *T O D O S*\n`;
   teks += `${messageText}\n\n${readmore}`;
   
   const mentions = [];
