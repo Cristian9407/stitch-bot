@@ -14,14 +14,14 @@ const handler = async (m, { conn, args, isOwner }) => {
     }
 
     const chatId = m.chat;
-    const cooldownTime = 2 * 60 * 1000;
+    const cooldownTime = 1 * 30 * 1000;
     const now = Date.now();
 
     if (cooldowns.has(chatId)) {
       const expire = cooldowns.get(chatId) + cooldownTime;
       if (now < expire) {
         const left = expire - now;
-        return m.reply(`⏰ Debes esperar ${Math.floor(left / 60000)}m ${Math.floor((left % 60000) / 1000)}s antes de usar este comando nuevamente.`);
+        return m.reply(`⏰ Debes esperar ${Math.floor(left / 30000)}m ${Math.floor((left % 30000) / 1000)}s antes de usar este comando nuevamente.`);
       }
     }
     cooldowns.set(chatId, now);
