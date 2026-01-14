@@ -25,7 +25,7 @@ say('Iniciando...', {
   gradient: ['yellow', 'cyan'],
 });
 
-say('Stitch-Bot', {
+say('Luna-botv6', {
   font: 'block',
   align: 'center',
   gradient: ['blue', 'magenta'],
@@ -33,7 +33,7 @@ say('Stitch-Bot', {
 
 process.stdout.write('\x07');
 
-console.log(chalk.hex('#00FFFF').bold('─◉ Bienvenido al sistema Stitch-Botv6'));
+console.log(chalk.hex('#00FFFF').bold('─◉ Bienvenido al sistema Stitch-botv6'));
 console.log(chalk.hex('#FF00FF')('─◉ Preparando entorno y verificaciones necesarias...'));
 
 const rutaTmp = join(__dirname, 'src/tmp');
@@ -161,10 +161,10 @@ async function start(file) {
 
   let numeroTelefono = '';
   if (opcion === '2') {
-    const phoneNumber = await question(chalk.hex('#FFD700').bold('\n─◉　Escriba su número de WhatsApp:\n') + chalk.hex('#E0E0E0').bold('◉　Ejemplo: +593985807958\n─> '));
+    const phoneNumber = await question(chalk.hex('#FFD700').bold('\n─◉　Escriba su número de WhatsApp:\n') + chalk.hex('#E0E0E0').bold('◉　Ejemplo: +593990110616\n─> '));
     numeroTelefono = formatearNumeroTelefono(phoneNumber);
     if (!esNumeroValido(numeroTelefono)) {
-      console.log(chalk.bgHex('#FF1493')(chalk.white.bold('[ ERROR ] Número inválido. Asegúrese de haber escrito su numero en formato internacional y haber comenzado con el código de país.\n─◉　Ejemplo:\n◉ +593985807958\n')));
+      console.log(chalk.bgHex('#FF1493')(chalk.white.bold('[ ERROR ] Número inválido. Asegúrese de haber escrito su numero en formato internacional y haber comenzado con el código de país.\n─◉　Ejemplo:\n◉ +593990110616\n')));
       process.exit(0);
     }
     process.argv.push(numeroTelefono);
