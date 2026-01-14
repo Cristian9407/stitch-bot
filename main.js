@@ -254,6 +254,39 @@ const connectionOptions = {
 };
 
 global.conn = makeWASocket(connectionOptions);
+import printMessage from './src/libraries/print.js';
+
+const originalSendMessage = global.conn.sendMessage.bind(global.conn);
+
+global.conn.sendMessage = async function (jid, content, options = {}) {
+  const result = await originalSendMessage(jid, content, options);
+
+  try {
+    const fakeMsg = {
+      key: {
+        fromMe: true,
+        remoteJid: jid
+      },
+      fromMe: true,
+      sender: global.conn.user?.jid,
+      chat: jid,
+      mtype: Object.keys(content || {})[0] || 'unknown',
+      messageTimestamp: Math.floor(Date.now() / 1000),
+      text:
+        content?.text ||
+        content?.caption ||
+        content?.conversation ||
+        null,
+      msg: content
+    };
+
+    await printMessage(fakeMsg, global.conn);
+  } catch (e) {
+    console.error('[Print Bot Error]', e.message);
+  }
+
+  return result;
+};
 
 conn.ev.on('creds.update', saveCreds);
 
@@ -643,8 +676,7 @@ global.reloadHandler = async function(restatConn) {
   conn.bye = '👋 ¡Hasta luego!\n@user';
   conn.spromote = '*[ ℹ️ ] @user Fue promovido a administrador.*';
   conn.sdemote = '*[ ℹ️ ] @user Fue degradado de administrador.*';
-  conn.sDesc = '*[ ℹ️ ] La descripción del grupo ha sido modificada.*';
-  conn.sSubject = '*[ ℹ️ ] El nombre del grupo ha sido modificado.*';
+  
   conn.sIcon = '*[ ℹ️ ] Se ha cambiado la foto de perfil del grupo.*';
   conn.sRevoke = '*[ ℹ️ ] El enlace de invitación al grupo ha sido restablecido.*';
 
@@ -782,7 +814,7 @@ setInterval(async () => {
   if (stopped === 'close' || !global.conn || !global.conn?.user) return;
   const _uptime = process.uptime() * 1000;
   const uptime = clockString(_uptime);
-  const bio = `• Activo: ${uptime} | TheMystic-Bot-MD`;
+  const bio = `• Activo: ${uptime} | Stitch-Bot`;
   await global.conn?.updateProfileStatus(bio).catch(() => {});
 }, 60000);
 
