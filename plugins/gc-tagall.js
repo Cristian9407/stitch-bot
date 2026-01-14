@@ -35,7 +35,7 @@ const handler = async (m, { conn, args, isOwner }) => {
     const mentionSet = new Set();
     participants.forEach(p => mentionSet.add(conn.decodeJid(p.id)));
 
-    let messageText = args.join(' ') || '_ATENCIÓN_';
+    let messageText = args.join(' ') || 'ATENCIÓN';
 
     if (m.mentionedJid?.length) {
       for (const lid of m.mentionedJid) {
