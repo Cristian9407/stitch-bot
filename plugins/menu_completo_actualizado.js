@@ -285,7 +285,7 @@ ${readMore}
 ┃ ⛏️ ${usedPrefix}minar
 ┃ ⛏️ ${usedPrefix}minar2
 ┃ 💎 ${usedPrefix}minard
-┃ 🌙 ${usedPrefix}minarluna
+┃ 🌙 ${usedPrefix}minarstitch
 ┃ 💰 ${usedPrefix}juegolimit
 ┃ 🏎️ ${usedPrefix}carreraautos
 ┃ 🛒 ${usedPrefix}buy
