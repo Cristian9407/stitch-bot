@@ -35,7 +35,7 @@ const handler = async (m, { conn, args, isOwner }) => {
     const mentionSet = new Set();
     participants.forEach(p => mentionSet.add(conn.decodeJid(p.id)));
 
-    let messageText = args.join(' ') || '*Atención*';
+    let messageText = args.join(' ') || '_ATENCIÓN_';
 
     if (m.mentionedJid?.length) {
       for (const lid of m.mentionedJid) {
@@ -46,7 +46,7 @@ const handler = async (m, { conn, args, isOwner }) => {
       }
     }
 
-    let teks = `🪼 *TODOS*\n`;
+    let teks = `⌘ *TODOS*\n`;
     let readmore = String.fromCharCode(8206).repeat(4001)
     teks += `${messageText}\n\n${readmore}`;
 
