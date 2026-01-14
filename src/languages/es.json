@@ -3836,8 +3836,8 @@
             "texto9": "*[ ℹ️ ] Para utilizar este comando debes estar registrado.*\n\n*[ 💡 ] Utiliza el comando:* _/verificar nombre.edad_ *para registrarte.*",
             "texto10": "*[ ℹ️ ] Este comando fue desactivado por el propietario del bot.*",
             "texto11": [
-                "*[ ⚠ ] Advertencia*",
-                "*[ ⚠ ] Advertencia*",
+                "[ ⚠ ] Advertencia",
+                "[ ⚠ ] Advertencia",
                 "https://github.com/Cristian9407/stitch-bot"
             ]
         },
