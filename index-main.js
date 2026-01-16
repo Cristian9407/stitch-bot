@@ -38,7 +38,7 @@ say('Iniciando...', {
   gradient: ['yellow', 'cyan'],
 });
 
-say('Luna-botv6', {
+say('Stitch-botv6', {
   font: 'block',
   align: 'center',
   gradient: ['blue', 'magenta'],
@@ -48,7 +48,7 @@ process.stdout.write('\x07');
 
 showMemoryInfo();
 
-console.log(chalk.hex('#00FFFF').bold('\n─◉ Bienvenido al sistema Luna-botv6'));
+console.log(chalk.hex('#00FFFF').bold('\n─◉ Bienvenido al sistema Stitch-botv6'));
 console.log(chalk.hex('#FF00FF')('─◉ Preparando entorno y verificaciones necesarias...'));
 
 const rutaTmp = join(__dirname, 'src/tmp');
