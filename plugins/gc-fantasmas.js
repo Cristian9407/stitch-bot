@@ -32,8 +32,8 @@ const handler = async (m, { isOwner, conn, text, args, command, usedPrefix }) =>
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`));
   const tradutor = _translate.plugins.gc_fantasmas;
 
-  const sider = sider.length(u => u.id);
-  let sum = !text ? sider2.length : text;
+  const member = participants.map(u => u.id);
+  let sum = !text ? member.length : text;
   let total = 0;
   const sider = [];
 
@@ -55,7 +55,7 @@ const handler = async (m, { isOwner, conn, text, args, command, usedPrefix }) =>
   if (total == 0) return conn.reply(m.chat, tradutor.texto1, m);
 
   const texto = `${tradutor.texto2[0]} ${await conn.getName(m.chat)}
-${tradutor.texto2[1]} ${sum}
+${tradutor.texto2[1]} ${sider.length}
 
 ${tradutor.texto2[2]}
 ${sider.map(v => '  👉🏻 @' + v.replace(/@.+/, '')).join('\n')}
