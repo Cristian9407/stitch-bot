@@ -46,9 +46,7 @@
     "url-regex-safe": "^3.0.0",
     "jimp": "^0.22.12",
     "ruhend-scraper": "^9.0.8",
-    "@hiudyy/ytdl": "^0.2.3",
-    "yt-search": "^2.10.3",
-    "ytdl-core": "latest"
+    "yt-search": "^2.10.3"
   },
   "optionalDependencies": {
     "wa-sticker-formatter": "^4.3.2"
