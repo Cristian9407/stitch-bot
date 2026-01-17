@@ -32,8 +32,8 @@ const handler = async (m, { isOwner, conn, text, args, command, usedPrefix }) =>
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`));
   const tradutor = _translate.plugins.gc_fantasmas;
 
-  const member = sider.map(u => u.id);
-  let sum = !text ? member.length : text;
+  const sider = sider.length(u => u.id);
+  let sum = !text ? sider2.length : text;
   let total = 0;
   const sider = [];
 
