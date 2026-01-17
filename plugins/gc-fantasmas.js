@@ -33,7 +33,7 @@ const handler = async (m, { isOwner, conn, text, args, command, usedPrefix }) =>
   const tradutor = _translate.plugins.gc_fantasmas;
 
   const member = participants.map(u => u.id);
-  let sum = !text ? member.length : text;
+  let sum = !text ? sider.length : text;
   let total = 0;
   const sider = [];
 
