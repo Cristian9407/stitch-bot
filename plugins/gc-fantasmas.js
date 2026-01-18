@@ -54,13 +54,13 @@ const handler = async (m, { isOwner, conn, text, args, command, usedPrefix }) =>
 
   if (total == 0) return conn.reply(m.chat, tradutor.texto1, m);
 
-  const texto = `${tradutor.texto2[0]} ${await conn.getName(m.chat)}
-${tradutor.texto2[1]} ${sider.length}
+  const texto = `${tradutor.texto2[0]}
+${tradutor.texto2[1]} *${sider.length}* ${tradutor.texto2[2]}
+${tradutor.texto2[3]}
 
-${tradutor.texto2[2]}
-${sider.map(v => '  👉🏻 @' + v.replace(/@.+/, '')).join('\n')}
+${sider.map(v => '  ◦ @' + v.replace(/@.+/, '')).join('\n')}
 
-${tradutor.texto2[3]}`;
+${tradutor.texto2[4]}`;
 
   if (isBotAdmin) {
     conn.sendMessage(m.chat, { text: texto, mentions: sider }, { quoted: m });
