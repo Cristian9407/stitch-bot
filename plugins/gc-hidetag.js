@@ -52,7 +52,7 @@ const handler = async (m, { conn, text, isOwner }) => {
     }
 
     if (!finalText) {
-      finalText = 'Hola :D';
+      finalText = 'sᴛɪᴛᴄʜ ʙᴏᴛ';
     }
 
     const mentionPattern = /@(\d+)/g;
