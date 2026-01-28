@@ -805,7 +805,16 @@ setInterval(async () => {
   if (stopped === 'close' || !global.conn || !global.conn?.user) return;
   const _uptime = process.uptime() * 1000;
   const uptime = clockString(_uptime);
-  const bio = `• Activo: ${uptime} | TheMystic-Bot-MD`;
+    const hora = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  
+  const gruposActivos = Object.keys(global.conn.chats || {}).filter(jid => jid.endsWith('@g.us')).length;
+  
+  const bio = `🪼 Stitch-Bot - Online
+⏱️ Activo: ${uptime}
+🕐 Hora: ${hora}
+👥 Grupos: ${gruposActivos}
+✨ Powered by Cristian`;
+
   await global.conn?.updateProfileStatus(bio).catch(() => {});
 }, 60000);
 
