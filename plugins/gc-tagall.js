@@ -46,7 +46,7 @@ const handler = async (m, { conn, args, isOwner }) => {
       }
     }
 
-    let teks = `⌘  *T O D O S*\n`;
+    let teks = `♥️  *T O D O S*\n`;
     let readmore = String.fromCharCode(8206).repeat(4001)
     teks += `${messageText}\n\n${readmore}`;
 
