@@ -125,7 +125,8 @@ global.loadDatabase = async function loadDatabase() {
   };
   global.db.chain = chain(global.db.data);
 };
-loadDatabase();
+await loadDatabase();
+await restaurarConfiguraciones();
 
 global.chatgpt = new Low(new JSONFile(path.join(__dirname, '/db/chatgpt.json')));
 global.loadChatgptDB = async function loadChatgptDB() {
@@ -214,16 +215,22 @@ const connectionOptions = {
 
     version,
 
-    getMessage: async (key) => {
-        try {
-            let jid = jidNormalizedUser(key.remoteJid);
-            let msg = await store.loadMessage(jid, key.id);
-            return msg?.message || "";
-        } catch (e) {
-            secureLogger?.error?.('Error en getMessage:', e);
-            return '';
-        }
-    },
+getMessage: async (key) => {
+    const connectionTime = global.timestamp?.connect?.getTime() || Date.now();
+    const msgTimestamp = (key.messageTimestamp || 0) * 1000;
+    
+if (msgTimestamp < connectionTime) {
+    return null;
+}
+
+    try {
+        let jid = jidNormalizedUser(key.remoteJid);
+        let msg = await store.loadMessage(jid, key.id);
+        return msg?.message || "";
+    } catch (e) {
+        return '';
+    }
+},
 
     patchMessageBeforeSending: async (message) => {
         return message;
@@ -259,6 +266,10 @@ import printMessage from './src/libraries/print.js';
 const originalSendMessage = global.conn.sendMessage.bind(global.conn);
 
 global.conn.sendMessage = async function (jid, content, options = {}) {
+  const msgText = content?.text ?? content?.caption ?? content?.conversation ?? null;
+  if (msgText !== null && typeof msgText === 'string' && msgText.trim() === '') {
+    return null;
+  }
   const result = await originalSendMessage(jid, content, options);
 
   try {
@@ -300,7 +311,7 @@ setInterval(async () => {
   }
 }, 30000);
 
-restaurarConfiguraciones(global.conn);
+//restaurarConfiguraciones(global.conn);
 const ownerConfig = getOwnerFunction();
 if (ownerConfig.modopublico) global.conn.public = true;
 if (ownerConfig.auread) global.opts['autoread'] = true;
@@ -830,11 +841,11 @@ setInterval(async () => {
   
   const gruposActivos = Object.keys(global.conn.chats || {}).filter(jid => jid.endsWith('@g.us')).length;
   
-  const bio = `🪼 Stitch-Bot - Online
+  const bio = `🌙 Luna-Bot v6 - Online
 ⏱️ Activo: ${uptime}
 🕐 Hora: ${hora}
 👥 Grupos: ${gruposActivos}
-✨ Powered by Cristian`;
+✨ Powered by TheMystic-Bot-MD`;
   
   await global.conn?.updateProfileStatus(bio).catch(() => {});
 }, 60000);
