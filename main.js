@@ -125,7 +125,8 @@ global.loadDatabase = async function loadDatabase() {
   };
   global.db.chain = chain(global.db.data);
 };
-loadDatabase();
+await loadDatabase();
+await restaurarConfiguraciones();
 
 global.chatgpt = new Low(new JSONFile(path.join(__dirname, '/db/chatgpt.json')));
 global.loadChatgptDB = async function loadChatgptDB() {
@@ -218,9 +219,9 @@ getMessage: async (key) => {
     const connectionTime = global.timestamp?.connect?.getTime() || Date.now();
     const msgTimestamp = (key.messageTimestamp || 0) * 1000;
     
-    if (msgTimestamp < connectionTime) {
-        return { conversation: '' };
-    }
+if (msgTimestamp < connectionTime) {
+    return null;
+}
 
     try {
         let jid = jidNormalizedUser(key.remoteJid);
@@ -265,6 +266,10 @@ import printMessage from './src/libraries/print.js';
 const originalSendMessage = global.conn.sendMessage.bind(global.conn);
 
 global.conn.sendMessage = async function (jid, content, options = {}) {
+  const msgText = content?.text ?? content?.caption ?? content?.conversation ?? null;
+  if (msgText !== null && typeof msgText === 'string' && msgText.trim() === '') {
+    return null;
+  }
   const result = await originalSendMessage(jid, content, options);
 
   try {
@@ -306,7 +311,7 @@ setInterval(async () => {
   }
 }, 30000);
 
-restaurarConfiguraciones(global.conn);
+//restaurarConfiguraciones(global.conn);
 const ownerConfig = getOwnerFunction();
 if (ownerConfig.modopublico) global.conn.public = true;
 if (ownerConfig.auread) global.opts['autoread'] = true;
