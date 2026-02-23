@@ -336,17 +336,17 @@ if (opcion === '2' && !fs.existsSync(`./${authFolder}/creds.json`)) {
         
         if (!numeroTelefono.match(/^\d+$/) || !Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
             console.log(chalk.red('[ ● ] Número de teléfono inválido:'), phoneNumber);
-            console.log(chalk.yellow('[ ℹ️ ] Formato correcto: +593990110616'));
+            console.log(chalk.yellow('[ ℹ️ ] Formato correcto: +5493483511079'));
             process.exit(1);
         }
     } else {
         while (true) {
-            numeroTelefono = await question(chalk.bgBlack(chalk.bold.yellowBright('[ ℹ️ ] Escriba su número de WhatsApp (incluya código de país):\nEjemplo: +593990110616\n---> ')));
+            numeroTelefono = await question(chalk.bgBlack(chalk.bold.yellowBright('[ ℹ️ ] Escriba su número de WhatsApp (incluya código de país):\nEjemplo: +5493483511079\n---> ')));
 
             if (numeroTelefono.match(/^\d+$/) && Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
                 break;
             } else {
-                console.log(chalk.red('[ ● ] Número inválido. Use formato: +593990110616'));
+                console.log(chalk.red('[ ● ] Número inválido. Use formato: +5493483511079'));
             }
         }
     }
