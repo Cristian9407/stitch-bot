@@ -10,7 +10,7 @@ const { CONNECTING } = ws;
 import { makeWASocket } from "../src/libraries/simple.js";
 import { Boom } from "@hapi/boom";
 import store from "../src/libraries/store.js";
-import { connectionManager } from "../lib/connection-manager.js";
+import { connectionManager } from "../lib/funcion/connection-manager.js";
 
 const SUBBOT_CONFIG = {
   messages: {
@@ -33,36 +33,9 @@ const SUBBOT_CONFIG = {
   },
 };
 
-const rtx = `🤖 *Stitch-Bot Sub Bot*
+const rtx = `🤖 *Luna-Bot Sub Bot*\n\n📱 *Escanea el código QR*\n\n*Pasos para vincular:*\n\n1 » Haz clic en los 3 puntos de la parte superior derecha\n\n2 » Toque en dispositivos vinculados\n\n3 » Escanea el código QR para iniciar sesión con el bot\n\n⚠️ *¡Este código QR expira en 45 segundos!*\n\n${global.dev || ""}`;
 
-📱 *Escanea el código QR*
-
-*Pasos para vincular:*
-
-1 » Haz clic en los 3 puntos de la parte superior derecha
-
-2 » Toque en dispositivos vinculados
-
-3 » Escanea el código QR para iniciar sesión con el bot
-
-⚠️ *¡Este código QR expira en 45 segundos!*
-
-${global.dev || ""}`;
-
-const rtx2 = `🤖 *Stitch-Bot Sub Bot Code*
-
-✨ Usa este Código para convertirte en Sub-Bot Temporal.
-
-↱ Tres Puntitos
-↱ Dispositivos Vinculados
-↱ Vincular Dispositivo
-↱ Vincular con el número de teléfono.
-
-➤ *Importante:*
-» No es recomendable usar tu cuenta principal.
-» Si el Bot principal se reinicia, todos los Sub-Bots se desconectaran.
-
-${global.dev || ""}`;
+const rtx2 = `🤖 *Luna-Bot Sub Bot Code*\n\n✨ Usa este Código para convertirte en Sub-Bot Temporal.\n\n↱ Tres Puntitos\n↱ Dispositivos Vinculados\n↱ Vincular Dispositivo\n↱ Vincular con el número de teléfono.\n\n➤ *Importante:*\n» No es recomendable usar tu cuenta principal.\n» Si el Bot principal se reinicia, todos los Sub-Bots se desconectaran.\n\n${global.dev || ""}`;
 
 const subbotOptions = {};
 
@@ -109,7 +82,26 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   }
 
   let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
-  let id = `${who.split`@`[0]}`;
+
+  let id;
+  if (m.isGroup) {
+    const groupMetadata = conn.chats[m.chat]?.metadata ||
+      await conn.groupMetadata(m.chat).catch(_ => null) || {};
+    const participants = groupMetadata.participants || [];
+    const participantData = participants.find(u =>
+      conn.decodeJid(u.id) === who ||
+      u.id === who ||
+      u.lid === who
+    );
+    id = (participantData?.id || who).split('@')[0];
+  } else {
+    id = who.split('@')[0];
+  }
+
+  if (!id) {
+    return m.reply("❌ No se pudo resolver tu número.");
+  }
+
   let subbotPath = path.join(`./sub-lunabot/`, id);
 
   if (connectionManager.isConnecting(id)) {
@@ -130,6 +122,7 @@ let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
   subbotOptions.args = args;
   subbotOptions.usedPrefix = usedPrefix;
   subbotOptions.command = command;
+  subbotOptions.senderPhone = id;
   initializeSubBot(subbotOptions);
   global.db.data.users[m.sender].Subs = new Date() * 1;
 };
@@ -140,7 +133,7 @@ handler.tags = ["socket"];
 export default handler;
 
 export async function initializeSubBot(options) {
-  let { subbotPath, m, conn, args, usedPrefix, command } = options;
+  let { subbotPath, m, conn, args, usedPrefix, command, senderPhone } = options;
   const userId = path.basename(subbotPath);
 
   connectionManager.setConnection(userId, {
@@ -225,7 +218,7 @@ export async function initializeSubBot(options) {
           let msg = await store.loadMessage(jid, clave.id);
           return msg?.message || "";
         }
-        return { conversation: "Stitch-Bot" };
+        return { conversation: "Luna-Bot" };
       },
       msgRetryCounterCache,
       msgRetryCounterMap,
@@ -326,7 +319,22 @@ export async function initializeSubBot(options) {
       if (qr && mcode) {
         txtCode = await conn.sendMessage(m.chat, { text: rtx2 }, m?.sender ? { quoted: m } : {});
         await sleep(3000);
-        let secret = await sock.requestPairingCode(m.sender.split`@`[0]);
+        let phoneForCode = senderPhone;
+        if (!phoneForCode) {
+          if (m.isGroup) {
+            const gm = conn.chats[m.chat]?.metadata ||
+              await conn.groupMetadata(m.chat).catch(_ => null) || {};
+            const pt = (gm.participants || []).find(u =>
+              conn.decodeJid(u.id) === m.sender ||
+              u.id === m.sender ||
+              u.lid === m.sender
+            );
+            phoneForCode = (pt?.id || m.sender).split('@')[0];
+          } else {
+            phoneForCode = m.sender.split('@')[0];
+          }
+        }
+        let secret = await sock.requestPairingCode(phoneForCode);
         secret = secret.match(/.{1,4}/g)?.join("-");
         codeBot = await m.reply(secret);
       }
