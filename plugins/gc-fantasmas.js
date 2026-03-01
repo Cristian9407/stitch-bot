@@ -105,8 +105,8 @@ const handler = async (m, { isOwner, conn, text, usedPrefix }) => {
     return conn.sendMessage(m.chat, { text: '✅ No hay fantasmas en el grupo.', mentions: [] }, { quoted: m });
 
   const lista = fantasmas.map(f => {
-    const tiempo = f.ultimaVez ? `hace ${tiempoInactivo(now - f.ultimaVez)}` : 'sin actividad registrada';
-    return `  👉🏻 @${f.numero} (${tiempo})`;
+    const tiempo = f.ultimaVez ? `hace ${tiempoInactivo(now - f.ultimaVez)}` : 'sin actividad';
+    return ` ◦  @${f.numero} (${tiempo})`;
   }).join('\n');
 
   const texto = `👻 *Fantasmas en ${await conn.getName(m.chat)}*\n📊 Revisados: ${limit}\n\n${lista}`;
