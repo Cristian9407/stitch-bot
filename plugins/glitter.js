@@ -57,8 +57,8 @@ const handler = async (m, { conn, args }) => {
   image = null
 
   let sticker = new Sticker(buffer, {
-    pack: global.packname || 'Luna Bot',
-    author: global.author || 'Crack',
+    pack: global.packname || '',
+    author: global.author || 'sᴛɪᴛᴄʜ ʙᴏᴛ',
     type: 'full',
     quality: 50
   })
