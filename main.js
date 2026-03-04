@@ -28,7 +28,7 @@ import NodeCache from 'node-cache';
 import { restaurarConfiguraciones } from './lib/funcConfig.js';
 import { getOwnerFunction } from './lib/owner-funciones.js';
 import { isCleanerEnabled } from './lib/cleaner-config.js';
-import { startAutoCleanService } from './auto-cleaner.js';
+import { startAutoCleanService, startGroupCleanService } from './auto-cleaner.js';
 import { privacyConfig, cleanOldUserData, secureLogger } from './privacy-config.js';
 import mentionListener from './plugins/game-ialuna.js';
 import { manejarEventosGrupo } from './lib/funcion/eventos-grupo.js';
@@ -263,41 +263,41 @@ if (msgTimestamp < connectionTime) {
 global.conn = makeWASocket(connectionOptions);
 import printMessage from './src/libraries/print.js';
 
-const originalSendMessage = global.conn.sendMessage.bind(global.conn);
-
-global.conn.sendMessage = async function (jid, content, options = {}) {
-  const msgText = content?.text ?? content?.caption ?? content?.conversation ?? null;
-  if (msgText !== null && typeof msgText === 'string' && msgText.trim() === '') {
-    return null;
-  }
-  const result = await originalSendMessage(jid, content, options);
-
-  try {
-    const fakeMsg = {
-      key: {
+function applyPrintWrapper(conn) {
+  const originalSendMessage = conn.sendMessage.bind(conn);
+  conn.sendMessage = async function (jid, content, options = {}) {
+    const msgText = content?.text ?? content?.caption ?? content?.conversation ?? null;
+    if (msgText !== null && typeof msgText === 'string' && msgText.trim() === '') {
+      return null;
+    }
+    const result = await originalSendMessage(jid, content, options);
+    try {
+      const fakeMsg = {
+        key: {
+          fromMe: true,
+          remoteJid: jid
+        },
         fromMe: true,
-        remoteJid: jid
-      },
-      fromMe: true,
-      sender: global.conn.user?.jid,
-      chat: jid,
-      mtype: Object.keys(content || {})[0] || 'unknown',
-      messageTimestamp: Math.floor(Date.now() / 1000),
-      text:
-        content?.text ||
-        content?.caption ||
-        content?.conversation ||
-        null,
-      msg: content
-    };
+        sender: conn.user?.jid,
+        chat: jid,
+        mtype: Object.keys(content || {})[0] || 'unknown',
+        messageTimestamp: Math.floor(Date.now() / 1000),
+        text:
+          content?.text ||
+          content?.caption ||
+          content?.conversation ||
+          null,
+        msg: content
+      };
+      await printMessage(fakeMsg, conn);
+    } catch (e) {
+      console.error('[Print Bot Error]', e.message);
+    }
+    return result;
+  };
+}
 
-    await printMessage(fakeMsg, global.conn);
-  } catch (e) {
-    console.error('[Print Bot Error]', e.message);
-  }
-
-  return result;
-};
+applyPrintWrapper(global.conn);
 
 conn.ev.on('creds.update', saveCreds);
 
@@ -336,17 +336,17 @@ if (opcion === '2' && !fs.existsSync(`./${authFolder}/creds.json`)) {
         
         if (!numeroTelefono.match(/^\d+$/) || !Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
             console.log(chalk.red('[ ● ] Número de teléfono inválido:'), phoneNumber);
-            console.log(chalk.yellow('[ ℹ️ ] Formato correcto: +5493483511079'));
+            console.log(chalk.yellow('[ ℹ️ ] Formato correcto: +593990110616'));
             process.exit(1);
         }
     } else {
         while (true) {
-            numeroTelefono = await question(chalk.bgBlack(chalk.bold.yellowBright('[ ℹ️ ] Escriba su número de WhatsApp (incluya código de país):\nEjemplo: +5493483511079\n---> ')));
+            numeroTelefono = await question(chalk.bgBlack(chalk.bold.yellowBright('[ ℹ️ ] Escriba su número de WhatsApp (incluya código de país):\nEjemplo: +593990110616\n---> ')));
 
             if (numeroTelefono.match(/^\d+$/) && Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
                 break;
             } else {
-                console.log(chalk.red('[ ● ] Número inválido. Use formato: +5493483511079'));
+                console.log(chalk.red('[ ● ] Número inválido. Use formato: +593990110616'));
             }
         }
     }
@@ -698,6 +698,7 @@ global.reloadHandler = async function(restatConn) {
     
     conn.ev.removeAllListeners();
     global.conn = makeWASocket(connectionOptions, {chats: oldChats});
+    applyPrintWrapper(global.conn);
     
     isInit = true;
   }
@@ -797,6 +798,7 @@ Object.freeze(global.reload);
 watch(pluginFolder, global.reload);
 await global.reloadHandler();
 manejarEventosGrupo(conn);
+startGroupCleanService();
 async function _quickTest() {
   const test = await Promise.all([
     spawn('ffmpeg'),
@@ -841,11 +843,11 @@ setInterval(async () => {
   
   const gruposActivos = Object.keys(global.conn.chats || {}).filter(jid => jid.endsWith('@g.us')).length;
   
-  const bio = `🌙 Luna-Bot v6 - Online
+  const bio = `🪼 Stitch-Bot - Online
 ⏱️ Activo: ${uptime}
 🕐 Hora: ${hora}
 👥 Grupos: ${gruposActivos}
-✨ Powered by TheMystic-Bot-MD`;
+✨ Powered by Cristian`;
   
   await global.conn?.updateProfileStatus(bio).catch(() => {});
 }, 60000);
