@@ -20,7 +20,7 @@ const handler = async (m, { conn, usedPrefix, isPrems }) => {
     const taguser = `@${m.sender.split('@')[0]}`
 
     const str = `╭━━━━━━━━━━━━━━━━━━━╮
-┃  🪼 *STITCH BOT MENU* 
+┃  🌙 *LUNA BOT MENU* 🌙
 ╰━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 👤 TU PERFIL 』━━━╮
@@ -35,13 +35,6 @@ const handler = async (m, { conn, usedPrefix, isPrems }) => {
 ┃ 💎 Premium: ${premiumTime > 0 || isPrems ? '✅' : '❌'}
 ╰━━━━━━━━━━━━━━━━━━╯
 ${readMore}
-
-╭━『🎭 MENUS ESPECIALES』━╮
-┃ 🎭 ${usedPrefix}menuanimes
-┃ 🌍 ${usedPrefix}lang
-┃ 🎵 ${usedPrefix}menuaudios
-┃ 🎶 ${usedPrefix}efectosaudio
-╰━━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 ℹ️ INFO DEL BOT 』━━━╮
 ┃ 📜 ${usedPrefix}terminosycondiciones
@@ -191,9 +184,11 @@ ${readMore}
 ╰━━━━━━━━━━━━━━━━━━━━━━╯
 
 ╭━『 🖌️ LOGOS Y EFECTOS 』━╮
+┃ 📋 ${usedPrefix}efectos    · Ver lista de efectos
 ┃ 🎨 ${usedPrefix}logos <efecto> <txt>
 ┃ 🎄 ${usedPrefix}logochristmas <txt>
 ┃ ❤️ ${usedPrefix}logocorazon <txt>
+┃ 🪪 ${usedPrefix}licencia <txt>  · Licencia con tu foto
 ┃ 💬 ${usedPrefix}ytcomment <txt>
 ┃ 📞 ${usedPrefix}hornycard <@tag>
 ┃ 💘 ${usedPrefix}simpcard <@tag>
@@ -285,7 +280,7 @@ ${readMore}
 ┃ ⛏️ ${usedPrefix}minar
 ┃ ⛏️ ${usedPrefix}minar2
 ┃ 💎 ${usedPrefix}minard
-┃ 🌙 ${usedPrefix}minarstitch
+┃ 🌙 ${usedPrefix}minarluna
 ┃ 💰 ${usedPrefix}juegolimit
 ┃ 🏎️ ${usedPrefix}carreraautos
 ┃ 🛒 ${usedPrefix}buy
@@ -319,14 +314,6 @@ ${readMore}
 ┃ ✂️ ${usedPrefix}sremovebg <img>
 ┃ 😊 ${usedPrefix}semoji <tipo> <emoji>
 ┃ 💬 ${usedPrefix}qc <txt>
-┃ 🔴 ${usedPrefix}attp <txt>
-┃ ✏️ ${usedPrefix}attp2 <txt>
-┃ 🔄 ${usedPrefix}attp3 <txt>
-┃ 🔴 ${usedPrefix}ttp <txt>
-┃ 🔒 ${usedPrefix}ttp2 <txt>
-┃ ✏️ ${usedPrefix}ttp3 <txt>
-┃ 🖋️ ${usedPrefix}ttp4 <txt>
-┃ 🖊️ ${usedPrefix}ttp5 <txt>
 ┃ 🤗 ${usedPrefix}pat <@tag>
 ┃ 👋 ${usedPrefix}slap <@tag>
 ┃ 😘 ${usedPrefix}kiss <@tag>
@@ -334,6 +321,29 @@ ${readMore}
 ┃ 🎁 ${usedPrefix}wm <packname> <autor>
 ┃ 🎨 ${usedPrefix}stickermarker <efecto> <img>
 ┃ ✨ ${usedPrefix}stickerfilter <efecto> <img>
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+
+╭━『 🌈 TEXTO ANIMADO ATTP 』━╮
+┃ 📋 ${usedPrefix}attp       · Ver lista de efectos
+┃ 🌈 ${usedPrefix}attp <txt>  · Cambia de colores
+┃ ✏️ ${usedPrefix}attp2 <txt>
+┃ 🔄 ${usedPrefix}attp3 <txt>
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+
+╭━『 ✨ TEXTO ANIMADO TTP 』━╮
+┃ 🔴 ${usedPrefix}ttp <txt>
+┃ 🔒 ${usedPrefix}ttp2 <txt>
+┃ 🏀 ${usedPrefix}ttp3 <txt>   · El texto rebota
+┃ 🔍 ${usedPrefix}ttp4 <txt>   · Zoom con pulso
+┃ 💥 ${usedPrefix}ttp5 <txt>   · Vibra intenso
+┃ 🌊 ${usedPrefix}ttp6 <txt>   · Ola de colores
+┃ 👻 ${usedPrefix}ttp7 <txt>   · Aparece y desaparece
+┃ 🔥 ${usedPrefix}ttp8 <txt>   · Glitch hacker
+┃ ✍️ ${usedPrefix}ttp9 <txt>   · Se escribe solo
+┃ 💡 ${usedPrefix}ttp10 <txt>  · Neón parpadeante
+┃ ⬇️ ${usedPrefix}ttp11 <txt>  · Cae desde arriba
+┃ 📈 ${usedPrefix}ttp12 <txt>  · Crece desde la nada
+┃ 🎨 ${usedPrefix}ttp13 <txt>  · Cada letra un color
 ╰━━━━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 👑 OWNER 』━━━╮
@@ -384,7 +394,6 @@ ${readMore}
 ┃ 🟢 ${usedPrefix}unbanuser <@tag>
 ┃ 💎 ${usedPrefix}dardiamantes <@tag> <cant>
 ┃ 🌟 ${usedPrefix}añadirxp <@tag> <cant>
-┃ 🚫 ${usedPrefix}banuser <@tag>
 ┃ 📣 ${usedPrefix}bc <txt>
 ┃ 📲 ${usedPrefix}bcchats <txt>
 ┃ 💬 ${usedPrefix}bcgc <txt>
@@ -408,8 +417,14 @@ ${readMore}
 ┃ 👁️ ${usedPrefix}viewimage <txt>
 ╰━━━━━━━━━━━━━━━━━━━━━╯
 
+╭━━━『 🤖 BOT ADMIN 』━━━╮
+┃ 🗑️ .borrarchats   · Borra todos los chats
+┃ 👥 .listagrupos   · Lista grupos del bot
+┃ 🧹 .limpiargrupos · Sale de grupos vacíos
+╰━━━━━━━━━━━━━━━━━━━━━╯
+
 ╭━━━━━━━━━━━━━━━━━━━╮
-┃  🪼 *STITCH BOT* 
+┃  🪼 *LUNA BOT*
 ╰━━━━━━━━━━━━━━━━━━━╯`.trim()
 
     const fkontak = {
