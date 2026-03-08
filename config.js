@@ -34,8 +34,8 @@ global.neoxr = {
   key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = '';
-global.author = 'sᴛɪᴛᴄʜ ʙᴏᴛ';
+global.packname = 'ʙᴏᴛ';
+global.author = 'sᴛɪᴛᴄʜ';
 global.wm = 'Stitch-Botv6';
 global.titulowm = 'Stitch-Botv6';
 global.titulowm2 = `Stitch-Botv6`
@@ -83,8 +83,8 @@ global.htki = '*⭑•̩̩͙⊱•••• ☪*';
 global.htka = '*☪ ••••̩̩͙⊰•⭑*';
 global.comienzo = '• • ◕◕════';
 global.fin = '════◕◕ • •';
-global.botdate = `*[ 📅 ] Fecha:*  ${moment.tz('America/Guayaquil').format('DD/MM/YY')}`;
-global.bottime = `*[ ⏳ ] Hora:* ${moment.tz('America/Guayaquil').format('HH:mm:ss')}`;
+global.botdate = `*[ 📅 ] Fecha:*  ${moment.tz('America/Mexico_City').format('DD/MM/YY')}`;
+global.bottime = `*[ ⏳ ] Hora:* ${moment.tz('America/Mexico_City').format('HH:mm:ss')}`;
 global.fgif = { key: { participant: '0@s.whatsapp.net' }, message: { 'videoMessage': { 'title': wm, 'h': `Hmm`, 'seconds': '999999999', 'gifPlayback': 'true', 'caption': bottime, 'jpegThumbnail': fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg')}}};
 global.multiplier = 99;
 global.flaaa = [
