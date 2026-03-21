@@ -34,7 +34,7 @@ global.neoxr = {
   key: 'Crysis',               // Reemplaza 'TU_API_KEY' con tu clave de API de Neoxr
 };
 
-global.packname = 'ʙᴏᴛ';
+global.packname = '';
 global.author = 'sᴛɪᴛᴄʜ';
 global.wm = 'Stitch-Botv6';
 global.titulowm = 'Stitch-Botv6';
