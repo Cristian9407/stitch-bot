@@ -53,7 +53,7 @@ function resolveJid(target, participants) {
   return target;
 }
 
-const HELP_CUMPLE = `🌙 *Luna-Botv6-Project*
+const HELP_CUMPLE = `🪼 *Stitch-Botv6*
 
 🎂 *Comando: Cumpleaños*
 
@@ -67,7 +67,7 @@ _.cumple lista_
 *Backup:*
 _.cumple backup_`;
 
-const HELP_SET = `🌙 *Luna-Botv6-Project*
+const HELP_SET = `🪼 *Stitch-Botv6*
 
 ✏️ *Editar cumpleaños*
 
@@ -96,7 +96,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
     } catch {}
   }
 
-  if (!isOwner && !isAdmin) return m.reply('🌙 *Luna-Botv6-Project*\n\n❌ Solo admins y el owner pueden usar este comando.');
+  if (!isOwner && !isAdmin) return m.reply('🪼 *Stitch-Botv6*\n\n❌ Solo admins y el owner pueden usar este comando.');
 
   const db = loadDB();
   if (!db[jid]) db[jid] = {};
@@ -115,7 +115,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
 
       if (!fecha) {
         await conn.sendMessage(jid, {
-          text: `🌙 *Luna-Botv6-Project*\n\n❓ No entendí la fecha para @${tagNum}\n\n_Ejemplo: .setcumple @tag 25 de diciembre_`,
+          text: `🪼 *Stitch-Botv6*\n\n❓ No entendí la fecha para @${tagNum}\n\n_Ejemplo: .setcumple @tag 25 de diciembre_`,
           mentions: [realJid]
         }, { quoted: m });
         continue;
@@ -124,7 +124,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
       db[jid][realJid] = { dia: fecha.dia, mes: fecha.mes, editadoPor: sender, editadoEn: Date.now() };
       saveDB(db);
       await conn.sendMessage(jid, {
-        text: `🌙 *Luna-Botv6-Project*\n\n✅ Cumpleaños de @${tagNum} actualizado\n📅 ${fecha.dia} de ${MESES_NOMBRE[fecha.mes]}`,
+        text: `🪼 *Stitch-Botv6*\n\n✅ Cumpleaños de @${tagNum} actualizado\n📅 ${fecha.dia} de ${MESES_NOMBRE[fecha.mes]}`,
         mentions: [realJid]
       }, { quoted: m });
     }
@@ -132,7 +132,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
   }
 
   if (cmd === 'delcumple') {
-    if (!m.mentionedJid?.length) return m.reply('🌙 *Luna-Botv6-Project*\n\n_Usá: .delcumple @tag_');
+    if (!m.mentionedJid?.length) return m.reply('🪼 *Stitch-Botv6*\n\n_Usá: .delcumple @tag_');
     for (const target of m.mentionedJid) {
       const realJid = resolveJid(target, participants);
       const tagNum  = realJid.split('@')[0];
@@ -140,7 +140,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
         delete db[jid][realJid];
         saveDB(db);
         await conn.sendMessage(jid, {
-          text: `🌙 *Luna-Botv6-Project*\n\n🗑️ Cumpleaños de @${tagNum} eliminado`,
+          text: `🪼 *Stitch-Botv6*\n\n🗑️ Cumpleaños de @${tagNum} eliminado`,
           mentions: [realJid]
         }, { quoted: m });
       } else {
@@ -155,10 +155,10 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
 
   if (args[0]?.toLowerCase() === 'lista') {
     const entradas = Object.entries(db[jid] || {});
-    if (!entradas.length) return m.reply('🌙 *Luna-Botv6-Project*\n\n📋 No hay cumpleaños registrados en este grupo.');
+    if (!entradas.length) return m.reply('🪼 *Stitch-Botv6*\n\n📋 No hay cumpleaños registrados en este grupo.');
 
     const mentions = entradas.map(([j]) => j);
-    let txt = '🌙 *Luna-Botv6-Project*\n\n🎂 *Cumpleaños del grupo*\n\n';
+    let txt = '🪼 *Stitch-Botv6t*\n\n🎂 *Cumpleaños del grupo*\n\n';
     for (const [ujid, data] of entradas.sort((a, b) => a[1].mes - b[1].mes || a[1].dia - b[1].dia)) {
       txt += `🎈 @${ujid.split('@')[0]} — ${data.dia} de ${MESES_NOMBRE[data.mes]}\n`;
     }
@@ -168,7 +168,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
   if (args[0]?.toLowerCase() === 'backup') {
     const backupPath = `./database/cumples_backup_${Date.now()}.json`;
     fs.copyFileSync(DB_PATH, backupPath);
-    return m.reply(`🌙 *Luna-Botv6-Project*\n\n💾 Backup creado: _${backupPath}_`);
+    return m.reply(`🪼 *Stitch-Botv6*\n\n💾 Backup creado: _${backupPath}_`);
   }
 
   if (!m.mentionedJid?.length) return m.reply(HELP_CUMPLE);
@@ -201,7 +201,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
   if (registrados.length > 0) {
     saveDB(db);
     const mentions = registrados.map(r => r.jid);
-    let txt = '🌙 *Luna-Botv6-Project*\n\n🎂 *Cumpleaños registrados!*\n\n';
+    let txt = '🪼 *Stitch-Botv6*\n\n🎂 *Cumpleaños registrados!*\n\n';
     for (const r of registrados) {
       txt += `👤 @${r.tagNum} — 📅 ${r.dia} de ${MESES_NOMBRE[r.mes]}\n`;
     }
@@ -210,7 +210,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
 
   for (const tagNum of errores) {
     await conn.sendMessage(jid, {
-      text: `🌙 *Luna-Botv6-Project*\n\n❓ No entendí la fecha para @${tagNum}\n_Ejemplo: .cumple @tag 11 de marzo_`,
+      text: `🪼 *Stitch-Botv6*\n\n❓ No entendí la fecha para @${tagNum}\n_Ejemplo: .cumple @tag 11 de marzo_`,
       mentions: []
     }, { quoted: m });
   }
@@ -221,26 +221,44 @@ handler.tags    = ['grupos'];
 handler.command = /^(cumple(años?)?|setcumple|editcumple|delcumple)$/i;
 export default handler;
 
+const CHECKER_STATE_PATH = './database/cumple_checker.json';
+
+function loadCheckerState() {
+  try {
+    if (fs.existsSync(CHECKER_STATE_PATH))
+      return JSON.parse(fs.readFileSync(CHECKER_STATE_PATH, 'utf8'));
+  } catch {}
+  return { lastChecked: null };
+}
+
+function saveCheckerState(state) {
+  try {
+    if (!fs.existsSync('./database')) fs.mkdirSync('./database', { recursive: true });
+    fs.writeFileSync(CHECKER_STATE_PATH, JSON.stringify(state));
+  } catch (e) {
+    console.error('[cumple] Error guardando estado:', e.message);
+  }
+}
+
 let _checkerStarted = false;
 
 export function startBirthdayChecker(conn) {
   if (_checkerStarted) return;
   _checkerStarted = true;
 
-  let _lastChecked = null;
-
   setInterval(async () => {
-    const nowUTC   = new Date();
-    const nowAR    = new Date(nowUTC.getTime() - 3 * 60 * 60 * 1000);
-    const today    = `${nowAR.getDate()}-${nowAR.getMonth() + 1}`;
+    const nowUTC = new Date();
+    const nowAR  = new Date(nowUTC.getTime() - 3 * 60 * 60 * 1000);
+    const today  = `${nowAR.getDate()}-${nowAR.getMonth() + 1}`;
+    const h      = nowAR.getHours();
 
-    if (_lastChecked === today) return;
+    if (h < 8) return;
 
-    const h = nowAR.getHours();
-    const min = nowAR.getMinutes();
-    if (h !== 8 || min >= 30) return;
+    const state = loadCheckerState();
+    if (state.lastChecked === today) return;
 
-    _lastChecked = today;
+    state.lastChecked = today;
+    saveCheckerState(state);
     const db = loadDB();
 
     for (const [groupJid, members] of Object.entries(db)) {
