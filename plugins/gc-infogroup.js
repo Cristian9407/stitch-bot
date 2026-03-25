@@ -14,7 +14,7 @@ const handler = async (m, { conn }) => {
   const config = getConfig(m.chat);
 
   const pp = await conn.profilePictureUrl(m.chat, 'image').catch(() => null)
-    || './src/avatar_contact.png';
+    || './src/assets/images/menu/languages/es/menu.jpeg';
 
   const groupAdmins = participants.filter(
     p => p.admin === 'admin' || p.admin === 'superadmin'
