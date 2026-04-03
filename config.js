@@ -36,10 +36,10 @@ global.neoxr = {
 
 global.packname = '';
 global.author = 'sᴛɪᴛᴄʜ';
-global.wm = 'Stitch-Botv6';
-global.titulowm = 'Stitch-Botv6';
-global.titulowm2 = `Stitch-Botv6`
-global.igfg = 'Stitch-Botv6';
+global.wm = 'Luna-Botv6';
+global.titulowm = 'Luna-Botv6';
+global.titulowm2 = `Luna-Botv6`
+global.igfg = 'Luna-Botv6';
 global.wait = '*_[ ⏳ ] Cargando..._*';
 
 global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.jpeg');
