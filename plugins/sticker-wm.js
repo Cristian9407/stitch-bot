@@ -52,6 +52,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['sr <packname>|<author>']
 handler.tags = ['sticker']
-handler.command = /^sr|take|robars|ws$/i
+handler.command = /^sr|take|wm|robars|ws$/i
 
 export default handler
