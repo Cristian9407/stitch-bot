@@ -20,7 +20,7 @@ const handler = async (m, { conn, usedPrefix, isPrems }) => {
     const taguser = `@${m.sender.split('@')[0]}`
 
     const str = `╭━━━━━━━━━━━━━━━━━━━╮
-┃  🌙 *LUNA BOT MENU* 🌙
+┃  🪼 *STITCH BOT MENU*
 ╰━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 👤 TU PERFIL 』━━━╮
@@ -334,23 +334,19 @@ ${readMore}
 ╰━━━━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 👑 OWNER 』━━━╮
-┃ 🔧 > <funcion>
-┃ ⚙️ => <funcion>
-┃ 🛠️ $ <funcion>
 ┃ 👑 ${usedPrefix}dsowner
 ┃ 🏷️ ${usedPrefix}setprefix <prefijo>
 ┃ 🔄 ${usedPrefix}resetprefix
 ┃ 🔄 ${usedPrefix}resetuser <@tag>
 ┃ 🛠️ ${usedPrefix}restoreuser <@tag>
 ┃ 👨‍💻 ${usedPrefix}autoadmin
-┃ ✅ ${usedPrefix}darmod <@tag>
-┃ 🗑️ ${usedPrefix}quitarmod <@tag>
 ┃ 📋 ${usedPrefix}grouplist
 ┃ 🚪 ${usedPrefix}leavegc
-┃ 🔒 ${usedPrefix}cajafuerte
 ┃ 🚫 ${usedPrefix}blocklist
 ┃ 🔑 ${usedPrefix}addowner <@tag/num>
+┃ 🔑 ${usedPrefix}agregarlid <@tag/num>
 ┃ 🗑️ ${usedPrefix}delowner <@tag/num>
+┃ 🗑️ ${usedPrefix}dellid <@tag/num>
 ┃ 🛑 ${usedPrefix}block <@tag/num>
 ┃ ⛔ ${usedPrefix}unblock <@tag/num>
 ┃ 🔒 ${usedPrefix}enable restrict
@@ -358,32 +354,27 @@ ${readMore}
 ┃ 🗣️ ${usedPrefix}autoread on
 ┃ 👀 ${usedPrefix}autoread off
 ┃ 🌐 ${usedPrefix}enable public
-┃ 🔒 ${usedPrefix}disable public
-┃ 📱 ${usedPrefix}enable pconly
-┃ 💻 ${usedPrefix}disable pconly
-┃ 👥 ${usedPrefix}enable gconly
-┃ 🚷 ${usedPrefix}disable gconly
-┃ 📞 ${usedPrefix}enable anticall
+┃ ✅ ${usedPrefix}enaable anticall
 ┃ 🚫 ${usedPrefix}disable anticall
 ┃ 🛑 ${usedPrefix}enable antiprivado
 ┃ ❌ ${usedPrefix}disable antiprivado
-┃ 🤖 ${usedPrefix}enable modejadibot
-┃ ⚡ ${usedPrefix}disable modejadibot
-┃ 🎶 ${usedPrefix}enable audios_bot
-┃ 🔇 ${usedPrefix}disable audios_bot
 ┃ 🧯 ${usedPrefix}enable antispam
 ┃ 🚫 ${usedPrefix}disable antispam
 ┃ 💌 ${usedPrefix}msg <txt>
-┃ 🚷 ${usedPrefix}banchat
+┃ 🚷 ${usedPrefix}banchat✅
 ┃ ✅ ${usedPrefix}unbanchat
 ┃ 🔄 ${usedPrefix}resetuser <@tag>
 ┃ ⛔ ${usedPrefix}banuser <@tag>
 ┃ 🟢 ${usedPrefix}unbanuser <@tag>
+┃ 📌 ${usedPrefix}banid
+┃ 🔕 ${usedPrefix}banid <id>
+┃ ✅ ${usedPrefix}unbanid <id>
 ┃ 💎 ${usedPrefix}dardiamantes <@tag> <cant>
 ┃ 🌟 ${usedPrefix}añadirxp <@tag> <cant>
 ┃ 📣 ${usedPrefix}bc <txt>
 ┃ 📲 ${usedPrefix}bcchats <txt>
 ┃ 💬 ${usedPrefix}bcgc <txt>
+┃ 💬 ${usedPrefix}informaragrupos <txt>
 ┃ 🎧 ${usedPrefix}bcgc2 <aud>
 ┃ 🎬 ${usedPrefix}bcgc2 <vid>
 ┃ 🖼️ ${usedPrefix}bcgc2 <img>
@@ -392,16 +383,11 @@ ${readMore}
 ┃ 🔄 ${usedPrefix}restart
 ┃ ⚡ ${usedPrefix}update
 ┃ 🚫 ${usedPrefix}banlist
-┃ ⏳ ${usedPrefix}addprem2 <@tag> <time>
-┃ 🎯 ${usedPrefix}addprem3 <@tag> <time>
-┃ 💫 ${usedPrefix}addprem4 <@tag> <time>
-┃ ❌ ${usedPrefix}delprem <@tag>
 ┃ 📋 ${usedPrefix}listcmd
 ┃ 🖼️ ${usedPrefix}setppbot <img>
 ┃ ➕ ${usedPrefix}addcmd <txt>
 ┃ 🗑️ ${usedPrefix}delcmd
 ┃ 💾 ${usedPrefix}saveimage <img>
-┃ 👁️ ${usedPrefix}viewimage <txt>
 ╰━━━━━━━━━━━━━━━━━━━━━╯
 
 ╭━━━『 🤖 BOT ADMIN 』━━━╮
@@ -410,8 +396,22 @@ ${readMore}
 ┃ 🧹 .limpiargrupos · Sale de grupos vacíos
 ╰━━━━━━━━━━━━━━━━━━━━━╯
 
+╭━━━『 🤖 STITCH IA 』━━━╮
+┃ Hablame natural mencionandome
+┃ sin necesidad de comandos 💜
+┃
+┃ 🎮 ${usedPrefix}iamenu · ver todo lo que hago
+┃
+┃ Ejemplos rapidos:
+┃ › @Luna veo veo
+┃ › @Luna clima de tu ciudad
+┃ › @Luna activa el modoadmin
+┃ › @Luna genera una imagen
+┃ › @Luna mutea a @usuario
+╰━━━━━━━━━━━━━━━━━━━╯
+
 ╭━━━━━━━━━━━━━━━━━━━╮
-┃  🌙 *LUNA BOT* 🌙
+┃  🪼 *STITCH BOT*
 ╰━━━━━━━━━━━━━━━━━━━╯`.trim()
 
     const fkontak = {
@@ -434,6 +434,19 @@ END:VCARD`
       caption: str,
       mentions: [m.sender]
     }, { quoted: fkontak })
+
+    await conn.sendButton(
+      m.chat,
+      '🤖 *Stitch IA* — Hablame de forma natural mencionándome.\nSin comandos, sin prefijos. Solo hablá 💜',
+      'Stitch-Botv6 🪼',
+      null,
+      [
+        ['🤖 Ver menú de IA', `${usedPrefix}iamenu`]
+      ],
+      null,
+      null,
+      m
+    )
 
   } catch (e) {
     conn.reply(m.chat, '❌ Ocurrió un error al mostrar el menú', m)
