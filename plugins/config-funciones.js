@@ -111,7 +111,7 @@ const handler = async (m, {conn, usedPrefix, command, args}) => {
   }
 
   const scopeText = config.bot || config.file ? 'TODO EL BOT' : 'ESTE CHAT';
-  const msg = `✧─── ☾ 𝗖𝗢𝗡𝗙𝗜𝗚 𝗟𝗨𝗡𝗔 ☽ ───✧
+  const msg = `✧─── 🪼 CONFIG STITCH ☽ ───✧
 
 ${isEnable ? '✅' : '❌'} • *Función:* _${type}_
 🔘 • *Estado:* _${isEnable ? 'ACTIVADA' : 'DESACTIVADA'}_
